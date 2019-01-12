@@ -1,0 +1,31 @@
+@import '../../defaults/tec-variables.scss';
+@import '../../defaults/general.scss';
+
+.slide_right {
+	.sr_container {
+		position: fixed;
+		top: 0;
+		right: -300px;
+		bottom: 0;
+		width: 300px;
+		background-color: #fff;
+		z-index: 9995;
+		transition: all 0.3s ease-in-out;
+		overflow-y: auto;
+
+		.sr_header {
+			background-color: $tec-red;
+			position: relative;
+			height: 50px;
+			padding-left: 10px;
+			display: flex;
+			align-items: center;
+			color: #fff;
+			font-weight: 600;
+		}
+
+		.sr_body {
+			padding: 30px 20px;
+		}
+	}	
+}

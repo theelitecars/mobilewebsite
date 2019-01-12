@@ -17,11 +17,7 @@ class Modal extends Component {
 	removeCustomClassBodyApp() {
 		document.body.classList.remove('tec-modal-show');
 	}
-
-	componentDidMount() {
-
-	}
-
+	
 	render () {
 
 		const {isActive, toggle, closeButton,  children, disableClose, overlayClick, maxWidth} = this.props;

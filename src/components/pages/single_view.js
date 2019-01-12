@@ -675,6 +675,8 @@ class SingleView extends Component {
 				});
 			}
 		})
+
+		console.log(this.state.singleViewCar);
 	}
 
 	formatPrice(price) {
@@ -806,12 +808,16 @@ class SingleView extends Component {
 	render() {
 
 		const { singleViewCar, isLoading, carSold, badgeText, salePrice, carPrice } = this.state;
-		const {carname, carprice, exteriorColor} = this.props.location.state;
 		let singleViewCarHtml = <div className="pageloading mt-4"><img src={pageLoading} className="img-fluid"/></div>
 		
 		if (!isLoading) {
 			singleViewCarHtml = singleViewCar.map((singlecarhtml, index) => 
 				<div key={index}>
+					{ typeof this.props.location.state == "undefined" ? (
+						<Helmet>
+							<title>{ singlecarhtml.title.rendered + " for Sale in Dubai, AED "+ (singlecarhtml.post_meta_fields.sale_price && singlecarhtml.post_meta_fields.sale_price[0] !== "" ? singlecarhtml.post_meta_fields.sale_price[0] : singlecarhtml.post_meta_fields.car_price[0]) +" , " + singlecarhtml.post_meta_fields['exterior-color'] }</title>
+						</Helmet>
+					) : ("")}
 					<SingleViewSlider slideImages={this.state.singleViewCarImages} carSold={this.state.carSold} badgeText={this.state.badgeText} salePrice={this.state.salePrice} />
 					<div className="single_view_container">
 						<div className="container">
@@ -943,9 +949,12 @@ class SingleView extends Component {
 
 		return (
 			<div className="single_view_page">
-				<Helmet>
-					<title>{ carname + " for Sale in Dubai, AED "+ carprice +" , " + exteriorColor}</title>
-				</Helmet>
+				{ typeof this.props.location.state != "undefined" ? (
+					<Helmet>
+						<title>{ this.props.location.state.carname + " for Sale in Dubai, AED "+ this.props.location.state.carprice +" , " + this.props.location.state.exteriorColor }</title>
+					</Helmet>
+				) : ("")}
+				
 				{ singleViewCarHtml }
 			</div>
 		)

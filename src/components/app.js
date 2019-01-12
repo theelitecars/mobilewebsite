@@ -12,10 +12,10 @@ import SingleView from './pages/single_view';
 
 /* Common */
 import Header from './common/header';
+import Footer from './common/footer';
 
 
 
-import Footer from './footer';
 import MenuSlide from './menu_slide';
 
 
@@ -131,7 +131,7 @@ class App extends Component {
 						<Switch>
 							<Route path="/" exact component={Home} />
 							<Route path="/pre-owned-used-approved-cars-dubai" render={()=><OurStocks carMakes={this.state.allMakes} />} />
-							<Route path="/used-cars-promotion-and-offer-in-dubai"  render={()=><OurOffers />} />
+							<Route path="/used-cars-promotion-and-offer-in-dubai"  render={()=><OurOffers carMakes={this.state.allMakes} />} />
 							<Route path="/news" exact component={News} />
 							<Route path="/news/:slugid" component={SingleNews} />
 							<Route path="/chat" component={Chat} />
