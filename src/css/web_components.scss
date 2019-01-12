@@ -1,0 +1,44 @@
+.filter_slide_container {
+	&.show {
+		.filter_overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: rgba(0,0,0,0.5);
+			z-index: 9990;	
+		}
+		.filter_slide {
+			right: 0;
+		}
+	}
+	.filter_slide {
+		position: fixed;
+		top: 0;
+		right: -300px;
+		bottom: 0;
+		width: 300px;
+		background-color: #fff;
+		z-index: 9995;
+		transition: all 0.3s ease-in-out;
+		overflow-y: auto;
+
+		.fs_header {
+			background-color: $tec-red;
+			position: relative;
+			height: 50px;
+			padding-left: 10px;
+			display: flex;
+			align-items: center;
+			color: #fff;
+			font-weight: 600;
+		}
+
+		.fs_body {
+			padding: 30px 20px;
+		}
+	}	
+}
+
+

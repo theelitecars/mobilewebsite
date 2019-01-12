@@ -1,0 +1,20 @@
+.single_news_page {
+	h1 {
+		color: #212529;
+		text-transform: capitalize;
+		text-align: left;
+		font-size: 1.3em;
+		text-align: justify;
+		margin-top: 20px;
+		margin-bottom: 20px;
+		line-height: 1.5;	
+	}
+
+	.single_news_container {
+		img {
+			width: 100%;
+			max-width: 100%;
+			height: auto;
+		}
+	}
+}

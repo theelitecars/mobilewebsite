@@ -1,0 +1,208 @@
+.sell_your_car_page {
+	h1 {
+		margin-top: 20px;
+	}
+
+	.container {
+		padding-top: 15px;
+		padding-bottom: 15px;
+		border-top: 1px solid rgba(0,0,0,0.1);
+	}
+
+	img.header-image {
+		margin-bottom: 15px;
+	}
+
+	iframe {
+		width: 100%;
+		height: 230px;
+		display: block;
+		margin-bottom: 20px;
+	}
+
+	a.tec-button {
+		position: relative;
+		padding-right: 45px;
+		.material-icons {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			position: absolute;
+			top: 50%;
+			right: 15px;
+			transform: translateY(-50%);
+		}
+	}
+
+	.sell_your_car_step_1 {
+		background-color: #E4E8E8;
+		padding: 30px 20px;
+		margin-bottom: 15px;
+	}
+
+	.trade_in_step_1 {
+		background-color: #E4E8E8;
+		padding: 30px 20px;
+		margin-bottom: 15px;
+
+		h2 {
+			display: table;
+			font-weight: 400;
+			margin-left: auto;
+			margin-right: auto;
+			border-top: 1px solid #000;
+			border-bottom: 1px solid #000;
+			padding: 5px 10px;
+		}
+
+		h3 {
+			background-color: rgb(30, 30, 30);
+			color: rgb(255, 255, 255);
+			text-align: center;
+			line-height: 1;
+			letter-spacing: 2px;
+			margin: 0px 0px 10px;
+			padding: 8px;
+			font-weight: 400;
+		}
+
+		.ti_steps {
+			display: table;
+			table-layout: fixed;
+			width: 100%;
+			color: rgb(132, 147, 151);
+			list-style: none;
+			margin: 0px;
+			padding: 0px;
+
+			li {
+				width: 20%;
+				position: relative;
+				display: table-cell;
+				text-align: center;
+				text-transform: capitalize;
+				font-size: 0.8em !important;
+
+				&:before {
+					content: attr(data-step);
+					display: block;
+					margin-right: auto;
+					margin-bottom: 0.25em;
+					margin-left: auto;
+					width: 2em;
+					height: 2em;
+					text-align: center;
+					line-height: 2.1em;
+					position: relative;
+					z-index: 995;
+					margin-top: 9px;
+					font-size: 1.2em;
+					color: rgb(255, 255, 255);
+					background: none 0% 0% repeat scroll rgb(197, 50, 63);
+					border-radius: 50%;
+				}
+
+				&:after {
+					content: "";
+					position: absolute;
+					display: block;
+					width: 100%;
+					height: 0.5em;
+					top: 1.65em;
+					z-index: 0;
+					left: 50% !important;
+					background: rgb(255, 255, 255);
+				}
+
+				&:last-child {
+					&:after {
+						display: none;
+					}
+				}
+			}
+		}
+
+		button {
+			width: 100%;
+			max-width: 200px;
+		}
+	}
+
+	.consignment_step_1 {
+		background-color: #E4E8E8;
+		padding: 30px 20px;
+		margin-bottom: 15px;
+	}
+
+	&.how_it_works {
+		.steps_graph {
+			img {
+				margin-bottom: 10px;
+			}
+			h2 {
+				font-size: 1.1em;
+				margin-bottom: 15px;
+			}
+			p {
+				text-align: center;
+			}
+		}
+	}
+}
+
+.sell_your_car_steps_page {
+	h1 {
+		margin-top: 20px;
+	}
+
+	.container {
+		padding-top: 15px;
+		padding-bottom: 15px;
+		border-top: 1px solid rgba(0,0,0,0.1);
+	}
+
+	p {
+		span {
+			color: $tec-red;
+			font-weight: 700;
+		}
+	}
+
+	.price_range {
+		.p_r_header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-direction: row;
+
+			span {
+				font-weight: 600;
+
+				&:first-child {
+					color: $tec-red;
+				}
+
+				&:last-child {
+					font-size: 1.2em;
+				}
+			}
+		}
+	}
+
+	.trade_in_car_lists {
+		border-top: 1px solid rgba(0,0,0,0.1);
+
+		.active {
+			.car_list_view_minified {
+				background-color: #f5f5f5;
+				border: 1px solid rgba(0,0,0,0.2);
+			}
+		}
+	}
+
+	.car_select_error {
+		display: block;
+		color: $tec-red;
+		font-size: 1em;
+	}
+}
