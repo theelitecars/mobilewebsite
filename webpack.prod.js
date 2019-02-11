@@ -24,6 +24,18 @@ module.exports = merge(common, {
 					fallback: "style-loader",
 					publicPath: "../"
 				})
+			},
+			{
+				test: /\.css$/,
+				use: [
+					{ 
+						loader: "style-loader"
+					},
+					{ 
+						loader: "css-loader",
+						options: { importLoaders: 1 }
+					}
+				]
 			}
 		]
 	},

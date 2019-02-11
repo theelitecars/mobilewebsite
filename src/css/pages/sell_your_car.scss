@@ -147,10 +147,61 @@
 				text-align: center;
 			}
 		}
+
+		.appointment {
+			background-color: #292D36;
+			padding: 15px 0;
+
+			h2, h4 {
+				color: #fff;
+			}
+
+			h2 {
+				margin-bottom: 10px;
+			}
+
+			h4 {
+				font-size: 1.2em;
+				position: relative;
+				display: table;
+				margin-left: auto;
+				margin-right: auto;
+				padding-left: 30px;
+				margin-bottom: 20px;
+
+				.material-icons {
+					position: absolute;
+					top: 50%;
+					left: 0;
+					transform: translateY(-50%);
+				}
+			}
+
+			button.tec-button {
+				width: 100%;
+				max-width: 200px; 
+			}
+		}
+	}
+
+	&.consignment {
+		.consignment_form {
+			padding: 15px;
+			background-color: #f5f5f5;
+			border: 1px solid rgba(0,0,0,0.2);
+		}
+
+		.page-loading-container {
+			position: fixed;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%,-50%);
+		}
 	}
 }
 
 .sell_your_car_steps_page {
+	min-height: 500px;
 	h1 {
 		margin-top: 20px;
 	}
@@ -204,5 +255,12 @@
 		display: block;
 		color: $tec-red;
 		font-size: 1em;
+	}
+
+	.page-loading-container {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%,-50%);
 	}
 }

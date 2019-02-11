@@ -1,0 +1,188 @@
+.car_list_view_minified {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+	flex-direction: row;
+
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	padding: 10px;
+
+	.cl_image {
+		width: 35%;
+		min-width: 145px;
+		margin-right: 15px;
+	}
+
+	.cl_details {
+		width: 100%;
+		h3 {
+			font-weight: 700;
+			font-size: 0.95em;
+			margin: 5px 0;
+			margin-bottom: 7px;
+		}
+
+		.ci-price {
+			span {
+				display: block;
+				line-height: 1;
+			}
+			.car-price {
+				color: $tec-red;
+				font-size: 1.3em;
+				font-weight: 700;
+			}
+			.sale-price {
+				font-size: 0.9em;
+				color: rgba(0,0,0,0.3);
+				text-decoration: line-through;
+				margin-bottom: 3px;
+			}
+		}
+	}
+}
+
+.car_list_view {
+	.cl-image {
+		position: relative;
+		margin-bottom: 0.5rem;
+		position: relative;
+		background-color: #eee;
+		width: 100%;
+		max-width: 2426px;
+		padding-top: 67%;
+
+		img {
+			position: absolute;
+			top: 0;
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.angle_badge {
+			color: #FFF;
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 110px;
+			height: 110px;
+			text-align: center;
+			overflow: hidden;
+
+			&.special-offer {
+				&:after {
+					border-top: 53px solid $tec-red;
+					border-right: 53px solid $tec-red;
+					border-bottom: 53px solid transparent;
+					border-left: 53px solid transparent;
+				}
+				
+			}
+
+			&.reserved {
+				&:after {
+					border-top: 53px solid #6c6d6d;
+					border-right: 53px solid #6c6d6d;
+					border-bottom: 53px solid transparent;
+					border-left: 53px solid transparent;
+				}
+			}
+
+			&:after {
+				content: '';
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 0;
+				height: 0;
+				z-index: 1;
+			}
+
+			span {
+				position: absolute;
+				display: block;
+				font-size: 12px;
+				font-weight: 600;
+				width: 100%;
+				height: 100%;
+				line-height: 120px;
+				transform: rotate(45deg) translate(0, -25%);
+				z-index: 2;
+				text-transform: uppercase;
+			}
+		}
+
+		.sold_badge {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: rotate(-20deg) translate(-50%, -50%);
+			transform-origin: 0% 0%;
+			font-size: 38px;
+			line-height: 52px;
+			border: 6px solid $tec-red;
+			color: $tec-red;
+			border-radius: 5px;
+			background: rgba(255, 255, 255, 0.75);
+			padding: 3px 5px;
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+	}
+	h3 {
+		font-weight: 700;
+		font-size: 1.1em;
+		text-align: center;
+		margin-bottom: 3px;
+	}
+	.cl-price {
+		display: flex;
+		align-items: flex-end;
+		justify-content: center;
+		flex-direction: row;
+
+		span {
+			font-weight: 700;
+			line-height: 1;
+		}
+
+		.car-price {
+			color: $tec-red;
+			font-size: 1.5em;
+		}
+
+		.sale-price {
+			color: rgba(0,0,0,0.3);
+			text-decoration: line-through;
+			margin-left: 10px;
+		}
+	}
+}
+
+.car_loading {
+	margin-bottom: 2rem;
+	.cl-image {
+		width: 100%;
+		max-width: 2426px;
+		padding-top: 67%;
+		background-color: #eee;
+		margin-bottom: 0.5rem;
+	}
+	.cl-title {
+		width: 100%;
+		height: 21px;
+		margin-bottom: 3px;
+		max-width: 380px;
+		background-color: #eee;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.cl-price {
+		width: 100%;
+		max-width: 150px;
+		height: 24px;
+		background-color: #eee;
+		margin-left: auto;
+		margin-right: auto;
+	}
+}

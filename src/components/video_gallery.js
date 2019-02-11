@@ -42,8 +42,6 @@ class VideoGallery extends Component {
 					totalResults: response.data.pageInfo.totalResults
 				});
 			}
-
-			console.log(this.state.videoGallery);
 		})
 		.catch((error) => {
 			console.log(error);
@@ -122,7 +120,7 @@ class VideoGallery extends Component {
 				<div className="container">
 					<div className="row video_gallery_lists">
 						{videoGalleryHtml}
-						{this.state.isLoading ? ( <div className="pageloading"><img src={pageLoading} className="img-fluid"/></div> ) : ''}
+						{this.state.isLoading ? ( <div className="text-center col-12"><img src={pageLoading} className="img-fluid page-loading"/></div> ) : ''}
 					</div>
 				</div>
 			</div>

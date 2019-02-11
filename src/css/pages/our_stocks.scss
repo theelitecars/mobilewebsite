@@ -3,6 +3,10 @@
 		margin-top: 25px;
 	}
 
+	> .container {
+		min-height: 300px;
+	}
+
 	.sort_filter {
 		display: flex;
 		align-items: center;

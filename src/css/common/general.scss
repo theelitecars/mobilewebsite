@@ -1,0 +1,469 @@
+/*ul.lists_inline {
+	&:after {
+		content: '';
+		display: block;
+		clear: both;
+		height: 0;
+		overflow: hidden;
+		visibility: hidden;
+		opacity: 0;
+	}
+
+	li {
+		float: left;
+	}
+}
+
+ul.lists_inline_center {
+	text-align: center;
+	li {
+		display: inline-block;
+	}
+}*/
+
+.tec_button, .tec-button {
+	display: table;
+	padding: 8px 10px;
+	line-height: 1;
+	color: #fff !important;
+	border-radius: 3px;
+	border: 1px solid rgba(0,0,0,0.1);
+	transition: all 0.05s ease-in-out;
+
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#c3313f+0,d93746+50,c3313f+100 */
+	background: rgb(195,49,63); /* Old browsers */
+	background: -moz-linear-gradient(top, rgba(195,49,63,1) 0%, rgba(217,55,70,1) 50%, rgba(195,49,63,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top, rgba(195,49,63,1) 0%,rgba(217,55,70,1) 50%,rgba(195,49,63,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, rgba(195,49,63,1) 0%,rgba(217,55,70,1) 50%,rgba(195,49,63,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#c3313f', endColorstr='#c3313f',GradientType=0 ); /* IE6-9 */
+
+
+	&:hover, &:active {
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d93746+0,c3313f+50,d93746+100 */
+		background: rgb(217,55,70); /* Old browsers */
+		background: -moz-linear-gradient(top, rgba(217,55,70,1) 0%, rgba(195,49,63,1) 50%, rgba(217,55,70,1) 100%); /* FF3.6-15 */
+		background: -webkit-linear-gradient(top, rgba(217,55,70,1) 0%,rgba(195,49,63,1) 50%,rgba(217,55,70,1) 100%); /* Chrome10-25,Safari5.1-6 */
+		background: linear-gradient(to bottom, rgba(217,55,70,1) 0%,rgba(195,49,63,1) 50%,rgba(217,55,70,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d93746', endColorstr='#d93746',GradientType=0 ); /* IE6-9 */	
+		transform: scale(0.96);
+	}
+}
+
+.menu-slide {
+
+	.ms-container {
+		position: fixed;
+		top: 0;
+		left: -300px;
+		bottom: 0;
+		background-color: #fff;
+		width: 100%;
+		max-width: 300px;
+		transition: all 0.3s ease-in-out;
+		z-index: 9995;
+		overflow-y: auto;
+
+		.ms-header {
+			width: 100%;
+			height: 200px;
+			position: relative;
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+
+			span {
+				position: absolute;
+				display: block;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				padding: 30px 10px 10px 10px;
+				font-size: 13px;
+				color: #fff;
+				/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&0+0,0.65+100 */
+				background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6-15 */
+				background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10-25,Safari5.1-6 */
+				background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+			}
+		}
+
+		ul.ms-menu {
+			padding: 0;
+			margin: 0;
+			list-style-type: none;
+
+			li {
+
+				&.has_children {
+					> a {
+						position: relative;
+						&:after {
+							position: absolute;
+							top: 50%;
+							right: 15px;
+							transform: translateY(-50%) rotate(-90deg);
+							font-family: 'Material Icons';
+							content: '\e5c5';
+							font-size: 1.8em;
+						}	
+					}
+
+					> ul {
+						display: none;
+					}
+				}
+
+				&.show_menu {
+					&.has_children {
+						> a {
+							&:after {
+								transform: translateY(-50%) rotate(0deg);
+							}	
+						}
+
+						> ul {
+							display: block;
+						}
+					}
+				}
+
+				a {
+					padding: 10px 15px;
+					display: block;
+					border-bottom: 1px solid rgba(0,0,0,0.1);
+				}
+
+				> ul {
+					padding: 0;
+					margin: 0;
+					list-style-type: none;
+					> li {
+						> a {
+							background-color: #f9f9f9;
+							padding-left: 30px;
+						}
+					}
+				}
+				
+			}
+		}
+	}
+	
+}
+
+.tec-modal-show {
+	overflow: hidden;
+}
+
+.overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: rgba(0,0,0,0.5);
+	z-index: 9995;
+}
+
+.slick-slider {
+	display: none;
+	z-index: 1;
+	&.slick-initialized {
+		display: block;
+	}
+
+	.slick-arrow {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		z-index: 2;
+
+		width: 50px;
+		height: 50px;
+
+		border: 0;
+		outline: none;
+		padding: 0;
+		margin: 0;
+		background-color: transparent;
+		color: #fff;
+
+		.material-icons {
+			background-color: rgba(0,0,0,0.5);
+			padding: 3px;
+		}
+
+		&.slick-prev {
+			left: 0;
+		}
+
+		&.slick-next {
+			right: 0;
+		}
+	}
+
+	.slick-dots {
+		position: absolute;
+		left: 50%;
+		transform: translateX(-50%);
+		bottom: 10px;
+		padding: 0;
+		margin: 0;
+		list-style-type: none;
+
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+			height: 0;
+			overflow: hidden;
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		> li {
+			float: left;
+
+			&.slick-active {
+				button {
+					background-color: $tec-red;
+					border-color: $tec-red;
+				}
+			}
+
+			button {
+				width: 10px;
+				height: 10px;
+				opacity: 1;
+				background-color: #fff;
+				border: 1px solid rgb(226, 229, 241);
+				font-size: 0;
+				padding: 0;
+				border-radius: 50%;
+				margin-left: 2px;
+				margin-right: 2px;
+			}
+		}
+	}
+}
+
+.slick-with-padding {
+	.slick-slider {
+		.slick-list {
+			margin-left: -14px;
+			margin-right: -14px;
+
+			.slick-slide {
+				padding-left: 7px;
+				padding-right: 7px;
+			}
+		}
+	}
+}
+
+.tec_modal {
+	width: 100%;
+	height: 100%;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 9990;
+
+	.tec_modal_container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		overflow: auto;
+		padding: 30px 20px;
+
+		.t_m_dialog {
+			position: relative;
+			width: 100%;
+			margin: 0 auto;
+			z-index: 9999;
+
+			.t_m_close {
+				position: absolute;
+				top: -15px;
+				right: -15px;
+				width: 30px;
+				height: 30px;
+				background-color: #222222;
+				border-radius: 50%;
+				border: 2px solid #fff;
+				opacity: 1;
+				box-shadow: 0px 0px 2px rgba(0,0,0,9);
+				padding: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				.material-icons {
+					color: #fff;
+					font-size: 1.2em;
+				}
+			}
+
+			h2 {
+				margin-top: 0px;
+				font-size: 1.3em;
+				border-bottom: 1px solid rgba(0,0,0,0.1);
+				padding-bottom: 10px;
+				margin-bottom: 10px;
+				margin-left: -15px;
+				margin-right: -15px;
+			}
+		}
+	}
+}
+
+.page-loading {
+	max-width: 50px;
+}
+
+.form_item {
+	margin-bottom: 10px;
+
+	&.apt_date_picker {
+		&.error {
+			span {
+				display: block;
+				color: $tec-red;
+				font-size: 0.8em;
+			}
+		}
+	}
+
+	label {
+		display: block;
+		font-size: 0.9em;
+		margin-bottom: 0;
+	}
+	select, button, input, textarea {
+		width: 100%;
+		padding: 7px;
+		background-color: #fff;
+
+		&[disabled] {
+			background-color: #fafafa;
+		}
+
+		&.invalid {
+			background-color: pink;
+		}
+
+		&.error {
+			/*border-color: $tec-red;*/
+
+			& + span {
+				display: block;
+				color: $tec-red;
+				font-size: 0.8em;
+			}
+		}
+
+		& + span {
+			display: none;
+		}
+	}
+
+	select, input, textarea {
+		border: 1px solid rgba(0,0,0,0.2);
+		outline: none;
+
+		&:focus {
+			border: 1px solid rgba(0,0,0,0.5);
+		}
+	}
+
+	textarea {
+		resize: none;
+		height: 150px;
+	}
+
+	button {
+		padding: 10px;
+	}
+
+	.radio_group {
+		margin-top: 10px;
+		&:after {
+			content: '';
+			display: block;
+			clear: both;
+			height: 0;
+			overflow: hidden;
+			visibility: hidden;
+			opacity: hidden;
+		}
+
+		& + span {
+			display: block;
+			color: $tec-red;
+			font-size: 0.8em;
+		}
+	}
+
+	label.radio {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		float: left;
+		margin-right: 15px;
+		margin-bottom: 5px;
+
+		input[type="radio"] {
+			width: auto;
+			margin-right: 5px;
+		}
+
+		input[type="radio"] + span {
+			display: block;
+		}
+
+	}
+}
+
+.react-datepicker-wrapper, .react-datepicker__input-container {
+	width: 100%;
+}
+
+.react-datepicker-wrapper + span {
+	display: block;
+    color: $tec-red;
+    font-size: 0.8em;
+}
+
+
+.react-datepicker {
+	.react-datepicker__navigation {
+		width: 10px;
+    	padding: 0;
+    	background-color: transparent;
+	}
+}
+
+.tec-button-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: row;
+
+	&.two-button {
+		.tec-button {
+			width: 50%;
+
+			&:first-child {
+				margin-right: 5px;
+			}
+
+			&:last-child {
+				margin-left: 5px;
+			}
+		}
+	}
+}

@@ -8,7 +8,8 @@ class SellYourCar extends Component {
 				<h1>Sell Your Car</h1>
 				<div className="container">
 					<iframe src="https://www.youtube.com/embed/FBw94hg8sto" frameBorder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowFullScreen=""></iframe>
-					<p>We will buy your car within 3 minutes!. Let’s get started by telling us something about it below.</p>
+					<p>We will buy your car within 3 minutes!. Let's get started by clicking the button below.</p>
+					<div><Link to="/sell-your-car/steps" className="tec_button mx-auto">Start Selling Your Car Today!</Link></div>
 					<h2 className="mt-4">Why Sell Your Car To Us?</h2>
 					<ul>
 						<li>In-house team of valuation experts specializing in luxury cars</li>

@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import pageLoading from '../images/pageload.gif';
 
-import TecModal from './modal';
+import Modal from './web-components/modal';
 
 class ContactUs extends Component {
 
@@ -16,6 +16,7 @@ class ContactUs extends Component {
 			errors: {},
 			isSending: false,
 			redirect: false,
+			sendingError: "",
 		}
 
 		this.handleChange = this.handleChange.bind(this);
@@ -26,7 +27,7 @@ class ContactUs extends Component {
 	}
 
 	handleChange(event) {
-		let fields = this.state.fields;
+		const {fields} = this.state;
 		fields[event.target.name] = event.target.value;
 
 		this.setState({
@@ -111,43 +112,65 @@ class ContactUs extends Component {
 
 	submitForm(event) {
 		event.preventDefault();
-
-		let fields = {};
-
 		if(this.validateForm()) {
+			
+			if (this._isMounted) {
+				this.setState({
+					isSending: true
+				});
+			}
 
-			this.setState({
-				isSending: true
-			});
-
-			axios.post('http://localhost/tecmobilewebsite/controllers/tec_send_mail/contact_us_send_mail.php', {
-				first_name: this.state.fields.first_name,
-				last_name: this.state.fields.last_name,
-				email_address: this.state.fields.email_address,
-				mobile_number: this.state.fields.mobile_number,
-				message: this.state.fields.message,
-			})
+			axios.post('https://theelitecars.com/mobile/controllers/send_mail/contact_us_send_mail.php', this.state.fields)
 			.then(
 				(response) => {
 
-					fields['first_name'] = "";
-					fields['last_name'] = "";
-					fields['email_address'] = "";
-					fields['mobile_number'] = "";
-					fields['message'] = "";
+					console.log(response);
 
-					this.setState({
-						fields: fields,
-						redirect: true,
-					});
+					if (response.data.msg_code === 0) {
 
-					const { redirect } = this.state;
+						if (this._isMounted) {
+							this.setState({
+								fields: {},
+								redirect: true,
+							});	
+						}
 
-					if (redirect) {
-						return <Redirect to='/thank-you'/>;
+					} else if (response.data.msg_code === 3){
+						if (this._isMounted) {
+							this.setState({
+								sendingError: "Your message failed to send. Please try again",
+							})
+						}
+					} else {
+
+						let errors = {};
+
+						for (var rd = response.data.length - 1; rd >= 0; rd--) {
+
+							if (response.data[rd].input_field == "interested_in") {
+								errors['interested_in'] = 'Please enter your the vehicle you interested in';
+							}
+
+							if (response.data[rd].input_field == "your_name") {
+								errors['your_name'] = 'Please enter a valid name';
+							}
+
+							if (response.data[rd].input_field == "email_address") {
+								errors['email_address'] = 'Please enter your valid email address';
+							}
+
+							if (response.data[rd].input_field == "mobile_number") {
+								errors['mobile_number'] = 'Please enter your valid mobile number';
+							}
+						}
+
+						if (this._isMounted) {
+							this.setState({
+								sendingError: "Please enter a valid form input.",
+								errors: errors
+							})
+						}
 					}
-
-					return <RenderYourForm/>;
 				}
 			)
 			.catch(
@@ -186,13 +209,40 @@ class ContactUs extends Component {
 		}
 	}
 
+	componentDidMount() {
+		this._isMounted = true;
+	}
+	componentWillUnmount() {
+		this.setState({
+			fields: {},
+			errors: {},
+			isSending: false,
+			redirect: false,
+			sendingError: "",
+		})
+		this._isMounted = false;
+	}
+
 	render() {
+
+		console.log(this.state.fields);
+
+		if (this.state.redirect) {
+			return <Redirect to="/thank-you" />
+		}
+
 		return (
 			<div className="contact_us_page">
 				<h1>Contact Us</h1>
 				<div className="container">
 					<p>Got questions or need assistance regarding our products and services? Please don’t hesitate to get in touch with us. Fill out the form below or visit our showroom personally.</p>
 					<div className="form_container">
+						{ this.state.sendingError ? (
+								<div className="alert alert-danger" role="alert">{this.state.sendingError}</div>
+							) : (
+								""
+							)
+						}
 						<form method="POST" onSubmit={this.submitForm}>
 							<div className="form_item">
 								<label>First Name *</label>
@@ -224,9 +274,13 @@ class ContactUs extends Component {
 						</form>
 					</div>
 				</div>
-				<TecModal modalToggle={this.state.isSending} showHideModal={this.handleShowHideSending} closeButton={false} modalDialog={true}>
-					<img src={pageLoading} className="img-fluid page-loading"/>
-				</TecModal>
+				<Modal
+					isActive={this.state.isSending}
+					toggle={this.handleShowHideSending}
+					closeButton={false}
+					overlayClick={false}>
+					<div className="text-center page-loading-container"><img src={pageLoading} className="img-fluid page-loading" /></div>
+				</Modal>
 			</div>
 		)
 	}

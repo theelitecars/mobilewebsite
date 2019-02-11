@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom"
 import axios from 'axios';
 
 import TecModal from './modal';
+import Modal from './web-components/modal';
 
 class SocialMediaGallery extends Component {
 
@@ -95,13 +96,20 @@ class SocialMediaGallery extends Component {
 			<div className="col-6" key={index}>
 				<div className="social_media_gallery_list_item">
 					<div className="smg_image" style={{backgroundImage:"url("+ socialhtml.images.standard_resolution.url +")"}} onClick={this.handleShowHideModal.bind(this, index)}></div>
-					<TecModal modalToggle={this.state.showHideModal[index] || false} showHideModal={this.handleShowHideModal.bind(this, index)} closeButton={true}>
-						<img src={socialhtml.images.standard_resolution.url} className="img-fluid" />
-						<div className="smg_desc">
-							<p dangerouslySetInnerHTML={this.createMarkup(socialhtml.caption.text.replace(/(\r\n|\n|\r)/gm,"<br/>"))} />
+					<Modal
+					isActive={this.state.showHideModal[index] || false}
+					toggle={this.handleShowHideModal.bind(this, index)}
+					closeButton={true}
+					overlayClick={true}
+					maxWidth="500">
+						<div className="social_media_gallery_modal">
+							<img src={socialhtml.images.standard_resolution.url} className="img-fluid" />
+							<div className="smg_desc">
+								<p dangerouslySetInnerHTML={this.createMarkup(socialhtml.caption.text.replace(/(\r\n|\n|\r)/gm,"<br/>"))} />
+							</div>
+							<a href={socialhtml.link} className="smg_link" target="_blank"><i className="material-icons">remove_red_eye</i>View</a>	
 						</div>
-						<a href={socialhtml.link} className="smg_link" target="_blank"><i className="material-icons">remove_red_eye</i>View</a>
-					</TecModal>
+					</Modal>
 				</div>
 			</div>
 		);

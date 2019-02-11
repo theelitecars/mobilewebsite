@@ -1,12 +1,451 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom";
 
 import headerImage from '../images/service_department.jpg';
+import pageLoading from '../images/pageload.gif';
+import Modal from './web-components/modal';
+import axios from 'axios';
+import DatePicker from "react-datepicker";
+
+class ServiceDepartmentAppointment extends Component {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			dateToday: null,
+			serviceAppointmentFields: {},
+			serviceAppointmentError: {},
+			redirect: false,
+			sendingError: '',
+			timings: [
+				"09:00",
+				"09:30",
+				"10:00",
+				"10:30",
+				"11:00",
+				"11:30",
+				"12:00",
+				"12:30",
+				"13:00",
+				"13:30",
+				"14:00",
+				"14:30",
+				"15:00",
+				"15:30",
+				"16:00",
+				"16:30",
+				"17:00",
+				"17:30",
+				"18:00",
+				"18:30",
+				"19:00",
+				"19:30",
+	        ]
+		}
+
+		this.datePickerOnChange = this.datePickerOnChange.bind(this);
+		this.addDays = this.addDays.bind(this);
+		this.convertMilitaryTime = this.convertMilitaryTime.bind(this);
+		this.handleChange = this.handleChange.bind(this);
+		this.submitServiceForm = this.submitServiceForm.bind(this);
+		this.validateServiceForm = this.validateServiceForm.bind(this);
+		this.addCustomClassBodyApp = this.addCustomClassBodyApp.bind(this);
+		this.removeCustomClassBodyApp = this.removeCustomClassBodyApp.bind(this);
+		
+	}
+
+
+	convertMilitaryTime(getTime) {
+        var m_time = getTime;
+        var hourValue;
+        var minutesValue;
+        var ampm = "AM";
+        
+        m_time = m_time.split(':');
+        
+        var hours = Number(m_time[0]);
+        var minutes = Number(m_time[1]);
+
+        if (hours > 0 && hours < 10) {
+            hourValue= "0" + hours;
+        } else if (hours > 12) {
+            hourValue= "0" + (hours - 12);
+            ampm = "PM"
+        } else if (hours === 0) {
+            hourValue= "12";
+        } else if (hours === 12) {
+            hourValue= "12";
+            if (minutes > 29) {
+                ampm = "PM"
+            }
+        }else {
+            hourValue = hours;
+        }
+        
+        if (minutes >= 0 && minutes < 10) {
+            minutesValue = "0" + minutes;
+        } else {
+            minutesValue = minutes;
+        }
+        
+        return hourValue + ":" + minutesValue + " " + ampm;
+    }
+
+    handleChange(event) {
+		const { serviceAppointmentFields } = this.state;
+		serviceAppointmentFields[event.target.name] = event.target.value;
+		if (this._isMounted) {
+			this.setState({
+				serviceAppointmentFields
+			});
+		}
+	}
+
+	datePickerOnChange(date) {
+		const { serviceAppointmentFields } = this.state;
+
+		serviceAppointmentFields["appointment_date"] = date.toLocaleDateString();
+
+		if (this._isMounted) {
+			this.setState({
+				serviceAppointmentFields,
+				dateToday: date,
+			})
+		}
+	}
+
+	addDays(date, days) {
+		var result = new Date(date);
+		result.setDate(result.getDate() + days);
+		return result;
+	}
+
+	submitServiceForm(event) {
+		event.preventDefault();
+
+		const {handleIsSending} = this.props;
+		const {serviceAppointmentFields, serviceAppointmentError} = this.state;
+
+		if (this.validateServiceForm()) {
+			handleIsSending();
+
+		axios.post('https://theelitecars.com/mobile/controllers/send_mail/service_department_send_mail.php', serviceAppointmentFields)
+		.then(
+			(response) => {
+
+				if (response.data.msg_code === 0) {
+					if (this._isMounted) {
+						this.setState({
+							dateToday: null,
+							serviceAppointmentFields: {},
+							serviceAppointmentError: {},
+							sellYourCarFields: {},
+							redirect: true,
+						});
+					}
+				} else if (response.data.msg_code === 3) {
+					if (this._isMounted) {
+						this.setState({
+							sendingError: "Your message failed to send. Please try again",
+						})
+					}
+				} else {
+					let serviceAppointmentError = {}
+
+					for (var rd = response.data.length - 1; rd >= 0; rd--) {
+
+						if(response.data[rd].input_field == "service_option") {
+							serviceAppointmentError['service_option'] = 'Please select a car body type';
+						}
+
+						if(response.data[rd].input_field == "first_name") {
+							serviceAppointmentError['first_name'] = 'Please enter a valid first name';
+						}
+
+						if(response.data[rd].input_field == "last_name") {
+							serviceAppointmentError['last_name'] = 'Please enter a valid last name';
+						}
+
+						if(response.data[rd].input_field == "email_address") {
+							serviceAppointmentError['email_address'] = 'Please enter a valid email address';
+						}
+
+						if(response.data[rd].input_field == "mobile_number") {
+							serviceAppointmentError['mobile_number'] = 'Please enter a valid number';
+						}
+
+						if(response.data[rd].input_field == "appointment_date") {
+							serviceAppointmentError['appointment_date'] = 'Please select an appointment date';
+						}
+
+						if(response.data[rd].input_field == "appointment_time") {
+							serviceAppointmentError['appointment_time'] = 'Please select an appointment time';
+						}
+
+						if (this._isMounted) {
+							this.setState({
+								sendingError: "Please enter a valid form input.",
+								serviceAppointmentError: serviceAppointmentError,
+							})
+						}
+					}
+				}
+			}
+		)
+		.catch(
+			(error) => {
+				console.log(error)
+			}
+		)
+		.then(() => {
+			if (this._isMounted) {
+				this.setState({
+					isSending: false
+				});
+			}
+		});
+		}
+	}
+
+	validateServiceForm() {
+		const {serviceAppointmentFields} = this.state;
+		let errors = {}
+		let formIsValid = true;
+
+		if(!serviceAppointmentFields['service_option']) {
+			errors['service_option'] = 'Please select a service';
+			formIsValid = false;
+		}
+
+		if(!serviceAppointmentFields['appointment_date']) {
+			errors['appointment_date'] = 'Please select an appointment date';
+			formIsValid = false;
+		}
+
+		if(!serviceAppointmentFields['appointment_time']) {
+			errors['appointment_time'] = 'Please select an appointment time';
+			formIsValid = false;
+		}
+
+		if(!serviceAppointmentFields['appointment_time']) {
+			errors['appointment_time'] = 'Please select an appointment time';
+			formIsValid = false;
+		}
+
+		if (!serviceAppointmentFields['first_name']) {
+			formIsValid = false;
+			errors['first_name'] = 'Please enter your first name';
+
+		} else {
+
+			let validateText = /^[a-zA-Z ]*$/;
+
+			if ( serviceAppointmentFields['first_name'].length <= 2 || !validateText.test(serviceAppointmentFields['first_name'])) {
+				formIsValid = false;
+				errors['first_name'] = 'Please enter a valid first name';
+			}
+		}
+
+		if (!serviceAppointmentFields['last_name']) {
+
+			formIsValid = false;
+			errors['last_name'] = 'Please enter your last name';
+
+		} else {
+
+			let validateText = /^[a-zA-Z ]*$/;
+
+			if ( serviceAppointmentFields['last_name'].length <= 2 || !validateText.test(serviceAppointmentFields['last_name'])) {
+				formIsValid = false;
+				errors['last_name'] = 'Please enter a valid last name';
+			}
+
+		}
+
+		if (!serviceAppointmentFields['email_address']) {
+
+			formIsValid = false;
+			errors['email_address'] = 'Please enter your email address';
+
+		} else {
+			
+			let validateEmail = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			
+			if ( serviceAppointmentFields['email_address'].length <= 6 || !validateEmail.test(serviceAppointmentFields['email_address'])) {
+				formIsValid = false;
+				errors['email_address'] = 'Please enter your valid email address';
+			}
+
+		}
+
+		if (!serviceAppointmentFields['mobile_number']) {
+
+			formIsValid = false;
+			errors['mobile_number'] = 'Please enter your mobile number';
+
+		} else {
+
+			let validatePhone = /^[+-]?\d+$/;
+
+			if ( serviceAppointmentFields['mobile_number'].length <= 5 || !validatePhone.test(serviceAppointmentFields['mobile_number'])) {
+				formIsValid = false;
+				errors['mobile_number'] = 'Please enter your valid mobile number';
+			}
+
+		}
+
+		if (this._isMounted) {
+			this.setState({
+				serviceAppointmentError: errors
+			});	
+		}
+
+		return formIsValid;
+	}
+
+	addCustomClassBodyApp() {
+		document.body.classList.add('tec-modal-show');
+	}
+
+	removeCustomClassBodyApp() {
+		document.body.classList.remove('tec-modal-show');
+	}
+
+	componentDidMount() {
+		this._isMounted = true;
+		window.scrollTo(0, 0);
+	}
+
+	componentWillUnmount() {
+		this.setState({
+			dateToday: null,
+			serviceAppointmentFields: {},
+			serviceAppointmentError: {},
+			redirect: false,
+			sendingError: '',
+		})
+		this._isMounted = false;
+	}
+
+	render () {
+
+		const {dateToday, serviceAppointmentError, serviceAppointmentFields, redirect, sendingError, timings} = this.state;
+		const {isSending, handleIsSending} = this.props;
+
+        if (redirect) {
+			this.removeCustomClassBodyApp();
+			return <Redirect to={"/thank-you"} push={true}/>;
+		}
+
+		return (
+			<div className="service_department_form">
+				<h2>Book Your Appointment</h2>
+				<form method="POST" autoComplete="off" onSubmit={this.submitServiceForm}>
+					{ sendingError ? (
+							<div className="alert alert-danger" role="alert">{sendingError}</div>
+						) : (
+							""
+						)
+					}
+					<div className="form_item">
+						<label>Select A Service *</label>
+						<select name="service_option" onChange={this.handleChange} value={serviceAppointmentFields.service_option} className={serviceAppointmentError.service_option ? "error":""} disabled={isSending ? true : false}>
+							<option value=""></option>
+							<option value="Full Detailing & Valeting">Full Detailing & Valeting</option>
+							<option value="Painting Service">Painting Service</option>
+							<option value="Complete Auto Service">Complete Auto Service</option>
+							<option value="Mechanical Works">Mechanical Works</option>
+							<option value="Car Tinting">Car Tinting</option>
+							<option value="Car Modifications (Body Kits)">Car Modifications (Body Kits)</option>
+						</select>
+						<span>{serviceAppointmentError.service_option}</span>
+					</div>
+					<div className="form_item">
+						<label>Appointment Date *</label>
+						<DatePicker
+							selected={dateToday}
+							onChange={this.datePickerOnChange}
+							minDate={this.addDays(new Date(), 1)}
+							name="appointment_date"
+							className={serviceAppointmentError.appointment_date ? "error":""}
+							disabled={isSending ? true : false}
+						/>
+						<span>{serviceAppointmentError.appointment_date}</span>
+					</div>
+					<div className="form_item">
+						<label>Appointment Time *</label>
+						<select name="appointment_time" onChange={this.handleChange} value={serviceAppointmentFields.appointment_time} className={serviceAppointmentError.appointment_time ? "error":""} disabled={isSending ? true : false}>
+							<option value=""></option>
+							{
+								timings.map((timing, index) => {
+									return <option key={index} value={timing}>{this.convertMilitaryTime(timing)}</option>
+								})
+							}
+						</select>
+						<span>{serviceAppointmentError.appointment_time}</span>
+					</div>
+					<div className="form_item">
+						<label>First Name *</label>
+						<input type="text" name="first_name" onChange={this.handleChange} value={serviceAppointmentFields.first_name || ''} className={serviceAppointmentError.first_name ? "error":""} disabled={isSending ? true : false} />
+						<span>{serviceAppointmentError.first_name}</span>
+					</div>
+					<div className="form_item">
+						<label>Last Name *</label>
+						<input type="text" name="last_name" onChange={this.handleChange} value={serviceAppointmentFields.last_name || ''} className={serviceAppointmentError.last_name ? "error":""} disabled={isSending ? true : false} />
+						<span>{serviceAppointmentError.last_name}</span>
+					</div>
+					<div className="form_item">
+						<label>Email Address *</label>
+						<input type="email" name="email_address" onChange={this.handleChange} value={serviceAppointmentFields.email_address || ''} className={serviceAppointmentError.email_address ? "error":""} disabled={isSending ? true : false} />
+						<span>{serviceAppointmentError.email_address}</span>
+					</div>
+					<div className="form_item">
+						<label>Mobile Number *</label>
+						<input type="tel" name="mobile_number" onChange={this.handleChange} value={serviceAppointmentFields.mobile_number || ''} className={serviceAppointmentError.mobile_number ? "error":""} disabled={isSending ? true : false} />
+						<span>{serviceAppointmentError.mobile_number}</span>
+					</div>
+					<div className="form_item">
+						<label>Message</label>
+						<textarea name="message" onChange={this.handleChange} value={serviceAppointmentFields.message || ''} disabled={isSending ? true : false} ></textarea>
+					</div>
+					<div className="form_item">
+						<button type="submit" className="tec_button" disabled={isSending ? true : false}>{isSending ? 'Sending...' : 'Send Inquiry'}</button>
+					</div>
+				</form>
+			</div>
+		)
+	}
+}
 
 class ServiceDepartment extends Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			showHideModal: false,
+			isSending: false,
+		}
+
 		this.handleDropDownToggle = this.handleDropDownToggle.bind(this);
+		this.handleShowHideSending = this.handleShowHideSending.bind(this);
+		this.addCustomClassBodyApp = this.addCustomClassBodyApp.bind(this);
+		this.removeCustomClassBodyApp = this.removeCustomClassBodyApp.bind(this);
+		this.handleIsSending = this.handleIsSending.bind(this);
+	}
+
+	handleIsSending() {
+		const {isSending} = this.state;
+
+		if (isSending) {
+			this.setState({
+				isSending: false
+			})
+		} else {
+			this.setState({
+				isSending: true
+			})
+		}
 	}
 
 	handleDropDownToggle(event) {
@@ -23,7 +462,30 @@ class ServiceDepartment extends Component {
 		}
 	}
 
+	handleShowHideSending() {
+
+		const {showHideModal}  = this.state;
+
+		if (showHideModal) {
+			this.removeCustomClassBodyApp();
+	    	this.setState({showHideModal: false});
+		} else {
+			this.addCustomClassBodyApp();
+	    	this.setState({showHideModal: true});
+		}
+	}
+
+	addCustomClassBodyApp() {
+		document.body.classList.add('tec-modal-show');
+	}
+
+	removeCustomClassBodyApp() {
+		document.body.classList.remove('tec-modal-show');
+	}
+
 	render() {
+		const {showHideModal, isSending} = this.state;
+
 		return (
 			<div className="service_page">
 				<h1>Service Department</h1>
@@ -113,9 +575,18 @@ class ServiceDepartment extends Component {
 					<div className="appointment">
 						<h2>Book Your Appointment Today</h2>
 						<a href="tel:600-543628"><h4><i className="material-icons">call</i>CALL: 600-543628</h4></a>
-						<button className="tec-button">Proceed</button>
+						<button className="tec_button mx-auto" onClick={this.handleShowHideSending}>Proceed</button>
 					</div>
 				</div>
+				<Modal
+					isActive={showHideModal}
+					toggle={this.handleShowHideSending}
+					closeButton={true}
+					overlayClick={true}
+					maxWidth="500"
+					disableClose={isSending}>
+					<ServiceDepartmentAppointment handleIsSending={this.handleIsSending} isSending={isSending} />
+				</Modal>
 			</div>
 		)
 	}

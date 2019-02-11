@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import axios from 'axios';
 
-import '../css/index.scss';
+/*import '../css/index.scss';*/
 
 /*Pages*/
 import Home from './pages/home';
 import OurStocks from './pages/our_stocks';
 import OurOffers from './pages/our_offers';
 import SingleView from './pages/single_view';
+import EmailToAFriend from './pages/email_to_a_friend';
 
 /* Common */
 import Header from './common/header';
 import Footer from './common/footer';
 
 
-
-import MenuSlide from './menu_slide';
-
+/* Web Components */
+import MenuSlide from './web-components/menu_slide';
 
 import News from './news';
 import SingleNews from './single_news';
@@ -54,22 +54,20 @@ class App extends Component {
 		super(props);
 		this.state = {
 			menu_visible: false,
-			allMakes: [],
 		}
 
 		this.toggleMenu = this.toggleMenu.bind(this);
 		this.handleMenuButton = this.handleMenuButton.bind(this);
 		this.addCustomClassBodyApp = this.addCustomClassBodyApp.bind(this);
 		this.removeCustomClassBodyApp = this.removeCustomClassBodyApp.bind(this);
-		this.getAllMakes = this.getAllMakes.bind(this);
 	}
 
 	addCustomClassBodyApp() {
-		document.body.classList.add('show_modal_bg_app');
+		document.body.classList.add('tec-modal-show');
 	}
 
 	removeCustomClassBodyApp() {
-		document.body.classList.remove('show_modal_bg_app');
+		document.body.classList.remove('tec-modal-show');
 	}
 
 	handleMenuButton(e) {
@@ -83,31 +81,7 @@ class App extends Component {
 		}));
 	}
 
-	getAllMakes() {
-		const url = 'https://theelitecars.com/wp-json/wp/v2/makes_models?parent=0&per_page=100';
-
-		axios.get(url)
-		.then((response) => {
-			if (this._isMounted) {
-				this.setState({
-					allMakes: response.data,
-				});
-			}
-		})
-		.catch((error) => {
-			console.log(error);
-		})
-		.then(() => {
-			if (this._isMounted) {
-				this.setState({
-					isLoading: false,
-				});
-			}
-		})
-	}
-
 	componentDidMount() {
-		this.getAllMakes();
 		this._isMounted = true;
 	}
 
@@ -124,14 +98,14 @@ class App extends Component {
 		}
 
 		return (
-			<Router basename="/">
+			<Router basename="/mobile">
 				<ScrollToTop>
 					<div>
 						<Header handleMenuButton={this.handleMenuButton}/>
 						<Switch>
 							<Route path="/" exact component={Home} />
-							<Route path="/pre-owned-used-approved-cars-dubai" render={()=><OurStocks carMakes={this.state.allMakes} />} />
-							<Route path="/used-cars-promotion-and-offer-in-dubai"  render={()=><OurOffers carMakes={this.state.allMakes} />} />
+							<Route path="/pre-owned-used-approved-cars-dubai" component={OurStocks} />
+							<Route path="/used-cars-promotion-and-offer-in-dubai" component={OurOffers} />
 							<Route path="/news" exact component={News} />
 							<Route path="/news/:slugid" component={SingleNews} />
 							<Route path="/chat" component={Chat} />
@@ -155,14 +129,15 @@ class App extends Component {
 							<Route path="/consignment" component={Consignment} />
 							<Route path="/how-it-works" component={HowItWorks} />
 							<Route path="/faq" component={Faq} />
-							<Route path="/thank-you" component={ThankYou} />
+							<Route path="/thank-you" exact component={ThankYou} />
 							<Route path="/listings/:slugid" component={SingleView} />
-							<Route path="/sell-your-car/steps" exact render={()=><SellYourCarStep carMakes={this.state.allMakes} />} />
-							<Route path="/trade-in/steps" exact render={()=><TradeInStep carMakes={this.state.allMakes} />} />
+							<Route path="/sell-your-car/steps" exact render={()=><SellYourCarStep carMakes={this.state.makes_models} />} />
+							<Route path="/trade-in/steps" exact render={()=><TradeInStep carMakes={this.state.makes_models} />} />
+							<Route path="/email-to-a-friend" component={EmailToAFriend} />
+							<Route path="/empty" component={null} key="empty"/>
 						</Switch>
 						<Footer />
 						<MenuSlide menuVisibility={this.state.menu_visible} handleMenuButton={this.handleMenuButton} />
-						<div className="modal_bg_app" onMouseDown={this.toggleMenu}></div>
 					</div>
 				</ScrollToTop>
 			</Router>

@@ -121,7 +121,7 @@ class Testimonials extends Component {
 				<div className="container">
 					<div className="row testimonials_lists">
 						{testimonialsHtml}
-						{this.state.isLoading ? ( <div className="pageloading"><img src={pageLoading} className="img-fluid"/></div> ) : ''}
+						{this.state.isLoading ? ( <div className="text-center col-12 my-4"><img src={pageLoading} className="page-loading img-fluid"/></div> ) : ''}
 					</div>
 				</div>
 			</div>

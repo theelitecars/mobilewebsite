@@ -1,9 +1,10 @@
 .single_news_page {
+	min-height: 500px;
 	h1 {
-		color: #212529;
+		color: $tec-red;
 		text-transform: capitalize;
 		text-align: left;
-		font-size: 1.3em;
+		font-size: 1.2em;
 		text-align: justify;
 		margin-top: 20px;
 		margin-bottom: 20px;
@@ -11,10 +12,18 @@
 	}
 
 	.single_news_container {
+		margin-bottom: 40px;
 		img {
 			width: 100%;
 			max-width: 100%;
 			height: auto;
+		}
+
+		p {
+			img {
+				margin-top: 15px;
+				margin-bottom: 15px;
+			}
 		}
 	}
 }

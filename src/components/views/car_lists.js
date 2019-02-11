@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Link } from "react-router-dom";
 
-import './css/car_lists.scss';
-
 const formatPrice = (price) => {
 	return price.toLocaleString(navigator.language, { minimumFractionDigits: 0 });
 }
@@ -18,7 +16,7 @@ export class CarListViewMinified extends Component {
 		return (
 			<div className="car_list_view_minified">
 				<div className="cl_image">
-					<img src={carDetails.gallery_images[0]} className="img-fluid" alt={carDetails.title.rendered} />
+					<img src={carDetails.gallery_images[2]} className="img-fluid" alt={carDetails.title.rendered} />
 				</div>
 				<div className="cl_details">
 					<h3>{carDetails.title.rendered}</h3>
@@ -78,6 +76,53 @@ export class CarListView extends Component {
 				) : (
 					<div className="cl-price">
 						<span className="car-price">AED {formatPrice(parseInt(carDetails.post_meta_fields.car_price[0]))}</span>
+					</div>
+				)}
+			</div>
+		)
+	}
+}
+
+export class CarListViewNoNumber extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	render () {
+		const {carDetails} = this.props;
+		return(
+			<div className="car_list_view">
+				<div className="cl-image">
+					<img src={carDetails.image} className="img-fluid" alt={carDetails.title} />
+					{carDetails.car_sold == 1 ? (
+						<div className="sold_badge">
+							<span>Sold</span>
+						</div>
+					) : (
+						carDetails.badge_text  ? (
+							<div className="angle_badge reserved">
+								<span>Reserved</span>
+							</div>
+						) : (
+							carDetails.sale_price ? (
+								<div className="angle_badge special-offer">
+									<span>Special Offer</span>
+								</div>
+							) : (
+								''
+							)
+						)
+					)}
+				</div>
+				<h3>{carDetails.title}</h3>
+				{carDetails.sale_price && carDetails.sale_price !== "" ? (
+					<div className="cl-price">
+						<span className="car-price">AED {formatPrice(parseInt(carDetails.sale_price))}</span>
+						<span className="sale-price">AED {formatPrice(parseInt(carDetails.car_price))}</span>
+					</div>
+				) : (
+					<div className="cl-price">
+						<span className="car-price">AED {formatPrice(parseInt(carDetails.car_price))}</span>
 					</div>
 				)}
 			</div>

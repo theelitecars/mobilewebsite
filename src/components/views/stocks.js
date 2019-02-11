@@ -21,12 +21,12 @@ class Stocks extends Component {
 			<div className="alert alert-info car_select_error text-center mb-2">No Vehicles Found</div>
 			<p>Ooops, it seems that what you're looking for is currently unavailable. Don't lose hope as we have multiple branches and partner companies across the UAE that will arrange and provide you with your dream car.</p>
 			<p>Take the first step by clicking on the button below.</p>
-			<div><Link to="/contact-us" className="tec-button">Inquire Now</Link></div>
+			<div className="text-center"><Link to="/contact-us" className="tec-button mx-auto">Inquire Now</Link></div>
 		</div>;
 
 		if (stocks.length > 0) {
 			stocksItems = stocks.map((stocksItem, index) =>
-				<div key={index}>
+				<div key={index} className="mb-3 col-12">
 					<Link to={{
 						pathname: "/listings/" + stocksItem.slug,
 						state: {
@@ -43,10 +43,10 @@ class Stocks extends Component {
 
 		return (
 			<div className="container">
-				<div className="car_item_container">
+				<div className="car_item_container row">
 					{stocksItems}
 				</div>
-				{isLoading ? (<div className="pageloading"><img src={pageLoading} className="img-fluid"/></div>) : stocks.length === 0 ? noVehiclesHtml : ""}
+				{isLoading ? (<div className="text-center mb-4"><img src={pageLoading} className="img-fluid page-loading"/></div>) : stocks.length === 0 ? noVehiclesHtml : ""}
 			</div>
 		)
 	}

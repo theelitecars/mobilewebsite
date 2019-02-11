@@ -1,4 +1,7 @@
 .single_view_page {
+	> div {
+		min-height: 300px;
+	}
 	.svp_slider {
 		position: relative;
 		.angle_badge {
@@ -378,6 +381,7 @@
 				align-items: flex-end;
 				justify-content: center;
 				flex-direction: row;
+				flex-wrap: wrap;
 				margin-bottom: 0;
 
 				span {
@@ -388,7 +392,6 @@
 				.car-price {
 					color: $tec-red;
 					font-size: 1.2em;
-					margin-left: 10px;
 				}
 
 				.sale-price {
@@ -429,5 +432,38 @@
 				background-color: #25d366;
 			}
 		}
+
+		.email_to_friend {
+			display: block;
+			width: 100%;
+			color: #fff;
+			text-align: center;
+			padding: 8px;
+			font-size: 1em;
+			font-weight: 600;
+			outline: none;
+			background-color: $tec-red;
+			margin-bottom: 10px;
+			height: auto !important;
+		}
+
+		.share_to_mesenger {
+			display: block;
+			width: 100%;
+			color: #fff;
+			text-align: center;
+			padding: 8px;
+			font-size: 1em;
+			font-weight: 600;
+			outline: none;
+			background-color: #0084FF;
+			height: auto !important;
+		}
+	}
+
+	.send_inquiry_single {
+		background-color: #fff;
+		padding-top: 15px;
+		padding-bottom: 15px;
 	}
 }

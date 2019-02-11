@@ -13,7 +13,6 @@ import registration from '../../images/registration.png';
 import warranty from '../../images/warranty.png';
 import finance from '../../images/finance.png';
 
-import TecModal from '../modal';
 import Modal from '../web-components/modal';
 
 const PrevArrow = (props) => {
@@ -82,7 +81,7 @@ class FinanceCalculator extends Component {
 									</tr>
 									<tr>
 										<td colSpan="2" className="text-center">
-											<button type="submit" className="tec-button">Calculate My Payment</button>
+											<button type="submit" className="tec_button mx-auto">Calculate My Payment</button>
 										</td>
 									</tr>
 									<tr>
@@ -230,13 +229,13 @@ class SimilarVehicles extends Component {
 
 		const sliderSettings = {
 			centerMode: true,
-			centerPadding: '50px',
+			centerPadding: '15px',
 			dots: false,
 			infinite: true,
 			speed: 500,
 			slidesToShow: 1,
 			slidesToScroll: 1,
-			arrows: true,
+			arrows: false,
 			autoplay: true,
   			autoplaySpeed: 3000,
   			prevArrow: <PrevArrow />,
@@ -429,11 +428,12 @@ class SendInquiry extends Component {
 	submitForm(event) {
 		event.preventDefault();
 
-		console.log(this.state.fields);
-
 		let fields = {};
 
 		if(this.validateForm()) {
+
+			this.props.isSendingForm();
+
 			if (this._isMounted) {
 				this.setState({
 					isSending: true,
@@ -442,7 +442,7 @@ class SendInquiry extends Component {
 				});
 			}
 
-			axios.post('http://localhost/tecmobilewebsite/controllers/tec_send_mail/send_car_inquiry_send_mail.php', {
+			axios.post('https://theelitecars.com/mobile/controllers/tec_send_mail/send_car_inquiry_send_mail.php', {
 				interested_in: this.state.fields.interested_in,
 				your_name: this.state.fields.your_name,
 				email_address: this.state.fields.email_address,
@@ -520,6 +520,7 @@ class SendInquiry extends Component {
 				}
 			)
 			.then(() => {
+				this.props.isSendingForm();
 				if (this._isMounted) {
 					this.setState({
 						isSending: false
@@ -546,8 +547,9 @@ class SendInquiry extends Component {
 		}
 
 		return (
-			<div className="container">
+			<div className="container send_inquiry_single">
 				<div className="form_container">
+					<h2>Send Inquiry</h2>
 					{ this.state.sendingError ? (
 							<div className="alert alert-danger" role="alert">{this.state.sendingError}</div>
 						) : (
@@ -580,10 +582,7 @@ class SendInquiry extends Component {
 							<textarea name="message" value={this.state.fields.message || ''} onChange={this.handleChange} disabled={this.state.isSending ? "disabled" : ""}></textarea>
 						</div>
 						<div className="form_item mb-0">
-							<div className="tec-button-container two-button">
-								<button className="tec-button" disabled={this.state.isSending ? "disabled" : ""} onClick={this.props.showHideModal}>Close</button>
-								<button type="submit" className="tec-button" disabled={this.state.isSending ? "disabled" : ""}>{this.state.isSending ? "Sending..." : "Send"}</button>
-							</div>
+							<button type="submit" className="tec-button" disabled={this.state.isSending ? "disabled" : ""}>{this.state.isSending ? "Sending..." : "Send"}</button>
 						</div>
 					</form>
 				</div>	
@@ -606,7 +605,7 @@ class SingleView extends Component {
 			carPrice: "",
 			isLoading: true,
 			dataID: "",
-			svShowInquiry: false,
+			modalInquiryIsActive: false,
 			financeCalculator: {
 				cost_of_vehicle: 0,
 				down_payment: 0,
@@ -616,19 +615,22 @@ class SingleView extends Component {
 				number_of_payment: 0,
 				payment_amount: 0
 			},
-			svShowShare: false,
 			modalShareIsActive: false,
+			inquiryFormIsSending: false,
 		}
 
 		this.getSingleViewCar = this.getSingleViewCar.bind(this);
 		this.financeCalculatorHandleChange = this.financeCalculatorHandleChange.bind(this);
 		this.calculateFinance = this.calculateFinance.bind(this);
 		this.handleSubmitFinance = this.handleSubmitFinance.bind(this);
-		this.handleSVShowHideModal = this.handleSVShowHideModal.bind(this);
-		this.handleSVShareShowHideModal = this.handleSVShareShowHideModal.bind(this);
+		this.isSendingForm = this.isSendingForm.bind(this);
 
 		/*Modal*/
+		this.addCustomClassBodyApp = this.addCustomClassBodyApp.bind(this);
+		this.removeCustomClassBodyApp = this.removeCustomClassBodyApp.bind(this);
+
 		this.handleShareModalToggle = this.handleShareModalToggle.bind(this);
+		this.handleInquiryModalToggle = this.handleInquiryModalToggle.bind(this);
 
 	}
 
@@ -734,6 +736,8 @@ class SingleView extends Component {
 		}
 	}
 
+	/*Modal*/
+
 	addCustomClassBodyApp() {
 		document.body.classList.add('tec-modal-show');
 	}
@@ -742,44 +746,47 @@ class SingleView extends Component {
 		document.body.classList.remove('tec-modal-show');
 	}
 
-	handleSVShowHideModal(e) {
-		e.preventDefault();
-		const {svShowInquiry} = this.state;
+	isSendingForm() {
+		const {inquiryFormIsSending} = this.state;
 
-		if (svShowInquiry) {
-			this.removeCustomClassBodyApp();
-	    	this.setState({svShowInquiry: false});
+		if (inquiryFormIsSending) {
+			this.setState({
+				inquiryFormIsSending: false
+			})	
 		} else {
-			this.addCustomClassBodyApp();
-	    	this.setState({svShowInquiry: true});
+			this.setState({
+				inquiryFormIsSending: true
+			})
 		}
+		
 	}
 
-	handleSVShareShowHideModal(e) {
-		e.preventDefault();
-		const {svShowShare} = this.state;
-
-		if (svShowShare) {
-			this.removeCustomClassBodyApp();
-	    	this.setState({svShowShare: false});
-		} else {
-			this.addCustomClassBodyApp();
-	    	this.setState({svShowShare: true});
-		}
-	}
-
-	/*Modal*/
 	handleShareModalToggle (e) {
 		e.preventDefault();
 
 		if (this.state.modalShareIsActive) {
+			this.removeCustomClassBodyApp();
 			this.setState({
 				modalShareIsActive: false
 			})
 		} else {
+			this.addCustomClassBodyApp();
 			this.setState({
 				modalShareIsActive: true
 			})
+		}
+	}
+
+	handleInquiryModalToggle(e) {
+		e.preventDefault();
+		const {modalInquiryIsActive} = this.state;
+
+		if (modalInquiryIsActive) {
+			this.removeCustomClassBodyApp();
+	    	this.setState({modalInquiryIsActive: false});
+		} else {
+			this.addCustomClassBodyApp();
+	    	this.setState({modalInquiryIsActive: true});
 		}
 	}
 
@@ -807,9 +814,9 @@ class SingleView extends Component {
 
 	render() {
 
-		const { singleViewCar, isLoading, carSold, badgeText, salePrice, carPrice } = this.state;
-		let singleViewCarHtml = <div className="pageloading mt-4"><img src={pageLoading} className="img-fluid"/></div>
-		
+		const { singleViewCar, isLoading, carSold, badgeText, salePrice, carPrice, inquiryFormIsSending } = this.state;
+		let singleViewCarHtml = <div className="my-5 text-center"><img src={pageLoading} className="img-fluid page-loading"/></div>;
+
 		if (!isLoading) {
 			singleViewCarHtml = singleViewCar.map((singlecarhtml, index) => 
 				<div key={index}>
@@ -841,14 +848,20 @@ class SingleView extends Component {
 								</a>
 							</div>
 							<div className="col-3">
-								<a href="" onClick={this.handleSVShowHideModal}>
+								<a href="" onClick={this.handleInquiryModalToggle}>
 									<i className="material-icons">email</i>
 									<span>SEND INQUIRY</span>
 								</a>
-								<TecModal modalToggle={this.state.svShowInquiry} showHideModal={this.handleSVShowHideModal} closeButton={false}>
-									<h2>Inquire Now</h2>
-									<SendInquiry interestedIn={singlecarhtml.title.rendered} slug={this.props.match.params.slugid} showHideModal={this.handleSVShowHideModal} afterSent={this.props.history} />
-								</TecModal>
+								<Modal 
+									isActive={this.state.modalInquiryIsActive}
+									closeButton={true}
+									toggle={this.handleInquiryModalToggle}
+									overlayClick={true}
+									title="Inquire Now"
+									disableClose={inquiryFormIsSending}
+									maxWidth="320">
+									<SendInquiry interestedIn={singlecarhtml.title.rendered} slug={this.props.match.params.slugid} isSendingForm={this.isSendingForm} />
+								</Modal>
 							</div>
 							<div className="col-3">
 								<NavLink to="/trade-in">
@@ -869,6 +882,13 @@ class SingleView extends Component {
 									title="Share Now"
 									maxWidth="300">
 									<div className="share_buttons">
+										<h2>Share</h2>
+										<Link to={
+											{
+												pathname: '/email-to-a-friend', 
+												state: singlecarhtml
+											}
+										} className="email_to_friend" onMouseDown={this.removeCustomClassBodyApp}>Email To A Friend</Link>
 										<FacebookShareButton url={singlecarhtml.link} className="share_facebook">Facebook</FacebookShareButton>
 										<TwitterShareButton url={singlecarhtml.link} title={singlecarhtml.title.rendered} className="share_twitter">Twitter</TwitterShareButton>
 										<LinkedinShareButton url={singlecarhtml.link} title={singlecarhtml.title.rendered} className="share_linkedin">LinkedIn</LinkedinShareButton>
@@ -940,6 +960,8 @@ class SingleView extends Component {
 							<p>We always find ways to make your dream of owning a luxury car possible. Offering flexible finance and insurance options as well as quick loan approval that takes within 48 hours, we ensure a convenient and hassle-free way to pay for your purchase. Let our in-house team of experts walk you through the entire process today!</p>
 							<FinanceCalculator handleSubmitFinance={this.handleSubmitFinance} fields={this.state.financeCalculator} financeCalculatorChange={this.financeCalculatorHandleChange} />
 							<h2>Similar Vehicles</h2>
+						</div>
+						<div className="mb-4">
 							<SimilarVehicles currentID={this.state.dataID} bodyType={singlecarhtml.post_meta_fields['body-type']} />
 						</div>
 					</div>

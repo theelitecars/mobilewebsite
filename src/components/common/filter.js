@@ -6,75 +6,83 @@ class FilterCars extends Component {
 		super(props);
 
 		this.state = {
-			carModels: [],
-			gettingAllModels: false,
-			allYears: [],
-			filterFields: {}
+			filterFields: {},
+			modelContainer: [],
+			all_makes_models: [],
 		}
 
-		this.getAllModels = this.getAllModels.bind(this);
-		this.getAllYears = this.getAllYears.bind(this);
 		this.setFilterFields = this.setFilterFields.bind(this);
 		this.filterSubmit = this.filterSubmit.bind(this);
 		this.handleOnChange = this.handleOnChange.bind(this);
+		this.handleModelChange = this.handleModelChange.bind(this);
+		this.itemMakeFormatDisplay = this.itemMakeFormatDisplay.bind(this);
+		this.getModels = this.getModels.bind(this);
+		this.handleFormSubmit = this.handleFormSubmit.bind(this);
+		this.getAllMakes = this.getAllMakes.bind(this);
 	}
 
-	getAllModels(event) {
+	getAllMakes() {
+		const url = 'http://theelitecars.com/mobile/controllers/get_cars/get_makes_models.php';
 
-		const {filterFields} = this.state;
-		const makeid = event.target[event.target.selectedIndex].getAttribute('data-makeid');
-		const url = `https://theelitecars.com/wp-json/wp/v2/makes_models?parent=${makeid}&per_page=100`;
-
-		if (this._isMounted) {
+		axios.get(url)
+		.then((response) => {
 			this.setState({
-				carModels: [],
+				all_makes_models: response.data
 			})
-		}
-
-		if (makeid) {
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.then(() => {
 			if (this._isMounted) {
 				this.setState({
-					gettingAllModels: true,
-				})
+					isLoading: false,
+				});
 			}
-
-			axios.get(url)
-			.then((response) => {
-				if (this._isMounted) {
-					this.setState({
-						carModels: response.data,
-					});
-				}
-			})
-			.catch((error) => {
-				console.log(error);
-			})
-			.then(() => {
-				if (this._isMounted) {
-					this.setState({
-						gettingAllModels: false,
-					});
-				}
-			})
-		}
-
-		this.setFilterFields(event.target.name, event.target.value);
-		this.setFilterFields("model", "");
+		})
 	}
 
-	getAllYears() {
-		const dateToday = new Date();
-		const maxYear = dateToday.getFullYear();
-		const minYear = 2000;
-		let allYears = [];
+	getModels(make_name) {
+		const {all_makes_models} = this.state;
 
-		for(let y = maxYear; y >= minYear; y--) {
-			allYears.push(y);
+		if (make_name && make_name != 'any') {
+			let model = all_makes_models.filter(all_makes_model => Object.keys(all_makes_model)[0] == make_name);
+			if (model[0][make_name].length > 0) {
+				this.setState({
+					modelContainer: model[0][make_name],
+				})
+			}
+		} else {
+			this.setState({
+				modelContainer: [],
+			})
 		}
+		
+	}
 
+	handleModelChange(event) {
+		this.getModels(event.target.value);
+		const {filterFields} = this.state;
+		filterFields['make'] = event.target.value;
+		filterFields['model'] = '';
 		this.setState({
-			allYears: allYears
+			filterFields
 		})
+	}
+
+	itemMakeFormatDisplay(make_model_text) {
+		if (make_model_text == 'bmw') {
+			return 'BMW';
+		} else if (make_model_text == 'gmc') {
+			return 'GMC';
+		} else if (make_model_text == 'mclaren') {
+			return 'McLaren';
+		} else if (make_model_text == 'mercedes-benz') {
+			return 'Mercedes-Benz';
+		} else {
+			let mmt = make_model_text.replace(/-/g, ' ');
+			return mmt.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );	
+		}
 	}
 
 	setFilterFields(fieldname, value) {
@@ -102,9 +110,14 @@ class FilterCars extends Component {
 		}
 	}
 
+	handleFormSubmit(event) {
+		event.preventDefault();
+		this.props.filterSubmit(this.state.filterFields);
+	}
+
 	componentDidMount() {
-		this.getAllYears();
 		this._isMounted = true;
+		this.getAllMakes();
 	}
 
 	componentWillUnmount() {
@@ -117,39 +130,57 @@ class FilterCars extends Component {
 	}
 
 	render () {
+		const {modelContainer, filterFields, all_makes_models} = this.state;
 
-		const {carMakes, value} = this.props;
-		const {carModels, gettingAllModels, allYears, filterFields} = this.state;
+		let modelOptions = '';
+		let makeOptions ='';
+		let formYears = [];
+		let d = new Date();
+
+		if (all_makes_models.length > 0) {
+			makeOptions = all_makes_models.map((all_makes, index) => {
+				return <option key={index} value={Object.keys(all_makes)[0]}>{this.itemMakeFormatDisplay(Object.keys(all_makes)[0])}</option>
+			});	
+		}
+
+		if (modelContainer.length > 0) {
+			modelOptions = modelContainer.map((model_container, index) => {
+				return <option key={index} value={model_container.value}>{model_container.display}</option>
+			})
+		} else {
+			modelOptions = '';
+		}
+
+		for (var y = d.getFullYear(); y >= 2000; y--) {
+			formYears.push(y);
+		}
+
+		console.log(all_makes_models.length);
 
 		return (
 			<div>
-				<form method="POST" onSubmit={this.filterSubmit}>
+				<form method="POST" onSubmit={this.handleFormSubmit}>
 					<div className="form_item">
-						<select name="make" disabled={carMakes.length === 0 ? true : false} onChange={this.getAllModels} value={filterFields.make}>
-							<option>Select A Make</option>
-							{
-								carMakes.map((carmake, index) => {
-									return <option key={index} value={carmake.slug} data-makeid={carmake.id}>{carmake.name}</option>
-								})
-							}
+						<select name="make" onChange={this.handleModelChange} value={filterFields.make}>
+							<option value="">Select A Make</option>
+							<option value="any">Any</option>
+							{makeOptions}
 						</select>
 					</div>
 					<div className="form_item">
-						<select name="model" disabled={carModels.length === 0 ? true : false} onChange={this.handleOnChange} value={filterFields.model}>
-							<option>{gettingAllModels ? "Getting models..." : "Select A Model"}</option>
-							{
-								carModels.map((carmodel, index) => {
-									return <option key={index} value={carmodel.slug}>{carmodel.name}</option>
-								})
-							}
+						<select name="model" disabled={modelContainer.length > 0 ? false : true} onChange={this.handleOnChange} value={filterFields.model}>
+							<option value="">Select A Model</option>
+							<option value="any">Any</option>
+							{modelOptions}
 						</select>
 					</div>
 					<div className="form_item">
 						<select name="year" onChange={this.handleOnChange} value={filterFields.year}>
-							<option>Select A Year</option>
+							<option value="">Select A Year</option>
+							<option value="any">Any</option>
 							{
-								allYears.map((allyear, index) => {
-									return <option key={index} value={allyear}>{allyear}</option>
+								formYears.map((formYear, index) => {
+									return <option value={formYear} key={index}>{formYear}</option>
 								})
 							}
 						</select>
@@ -242,7 +273,7 @@ class FilterCars extends Component {
 						</select>
 					</div>
 					<div className="form_item">
-						<button type="submit" className="tec-button">Submit</button>
+						<button type="submit" className="tec_button">Submit</button>
 					</div>
 				</form>
 			</div>

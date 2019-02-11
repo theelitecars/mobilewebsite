@@ -77,11 +77,11 @@ class OurStocks extends Component {
 		let filterUrlStocks = '';
 		let metaQueryCount = 1;
 
-		if (filterFields.make && filterFields.make != 'Select A Make') {
+		if (filterFields.make && filterFields.make != 'Select A Make' && filterFields.make != 'any') {
 			urlTaxQuery.push({taxonomy: 'makes_models', terms: filterFields.make, field: 'slug'})
 		}
 
-		if (filterFields.model && filterFields.model != 'Select A Model' && filterFields.make != 'Select A Make') {
+		if (filterFields.model && filterFields.model != 'Select A Model' && filterFields.model != 'any' && filterFields.make != 'Select A Make' && filterFields.make != 'any') {
 			urlTaxQuery.push({taxonomy: 'makes_models', terms: filterFields.model, field: 'slug'})
 		}
 
@@ -148,7 +148,8 @@ class OurStocks extends Component {
 				page: 1,
 				allStocks: [],
 				filter_visible: false
-			}), this.getAllStocks);		
+			}), this.getAllStocks);	
+
 		}
 	}
 
@@ -163,10 +164,10 @@ class OurStocks extends Component {
 				sortUrl = "&filter[orderby]=date&filter[order]=ASC";
 			break;
 			case 3: 
-				sortUrl = "&filter[orderby]=meta_value_num&filter[order]=DESC&filter[meta_key]=car_price";
+				sortUrl = "&filter[orderby]=meta_value_num&filter[order]=DESC&filter[meta_key]=common_price";
 			break;
 			case 4: 
-				sortUrl = "&filter[orderby]=meta_value_num&filter[order]=ASC&filter[meta_key]=car_price";
+				sortUrl = "&filter[orderby]=meta_value_num&filter[order]=ASC&filter[meta_key]=common_price";
 			break;
 		}
 
@@ -218,12 +219,16 @@ class OurStocks extends Component {
 	}
 
 	componentDidMount() {
-		this.getAllStocks();
+		this._isMounted = true;
+		if (typeof this.props.location.state != 'undefined') {
+			this.handleFilterSubmit(this.props.location.state);
+		} else {
+			this.getAllStocks();	
+		}
+
 		this.scrollListener = window.addEventListener('scroll', (e) => {
 			this.handleScroll(e);
 		})
-
-		this._isMounted = true;
 	}
 
 	componentWillUnmount() {
@@ -250,7 +255,8 @@ class OurStocks extends Component {
 
 	render() {
 		const {filter_visible, noData, allStocks, isLoading} = this.state;
-		const {carMakes} = this.props;
+		const {location} = this.props;
+		let all_makes_models = JSON.parse(localStorage.getItem('all_makes_models'));
 
 		return (
 			<div className="our_stocks">
@@ -264,10 +270,10 @@ class OurStocks extends Component {
 					<div className="sort">
 						<select name="sort_cars" onChange={this.handleSortSelect} >
 							<option>Sort By</option>
-							<option value="1">&#x1f809; Stocks</option>
-							<option value="2">&#x1f80b; Stocks</option>
-							<option value="3">&#x1f809; Price</option>
-							<option value="4">&#x1f80b; Price</option>
+							<option value="1">Newest to Oldest Stocks</option>
+							<option value="2">Oldest to Newest Stocks</option>
+							<option value="3">Highest to Lowest Price</option>
+							<option value="4">Lowest to Highest Price</option>
 						</select>
 						<i className="material-icons">sort</i>
 					</div>	
@@ -282,7 +288,7 @@ class OurStocks extends Component {
 					title="Filter Vehicles"
 					toggle={this.toggleFilter}
 					slideRight={filter_visible}>
-					<FilterCars carMakes={carMakes} submit={this.handleFilterSubmit} />
+					<FilterCars filterSubmit={this.handleFilterSubmit} />
 				</SlideRight>
 			</div>
 		)

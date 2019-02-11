@@ -15,7 +15,7 @@ class SparePartsDepartment extends Component {
 					<img src={headerImage} className="img-fluid header-image" alt="Spare Parts Department" title="Spare Parts Department" />
 					<div className="appointment">
 						<h2>Shop Parts &amp; Accessories on Our Webstore</h2>
-						<button className="tec-button">Take Me There</button>
+						<a href="http://theelitecarparts.com/" target="_blank" className="tec_button mx-auto">Take Me There</a>
 					</div>
 				</div>
 			</div>

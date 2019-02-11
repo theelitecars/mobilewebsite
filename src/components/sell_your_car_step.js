@@ -6,7 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import pageLoading from '../images/pageload.gif';
-import TecModal from './modal';
+import Modal from './web-components/modal';
 
 class SellYourCarDetails extends Component {
 
@@ -14,30 +14,78 @@ class SellYourCarDetails extends Component {
 		super(props);
 
 		this.state = {
-			allYears: []
+			modelContainer: [],
+			all_makes_models: [],
 		}
 
-		this.getYears = this.getYears.bind(this);
+		this.itemMakeFormatDisplay = this.itemMakeFormatDisplay.bind(this);
+		this.getModels = this.getModels.bind(this);
+		this.handleModelChange = this.handleModelChange.bind(this);
+		this.getAllMakes = this.getAllMakes.bind(this);
 	}
 
-	getYears() {
-		const dateToday = new Date();
-		const maxYear = dateToday.getFullYear();
-		const minYear = 2000;
-		const {allYears} = this.state;
+	getAllMakes() {
+		const url = 'http://theelitecars.com/mobile/controllers/get_cars/get_makes_models.php';
 
-		for(let y = maxYear; y >= minYear; y--) {
-			allYears.push(y);
-		}
-
-		this.setState({
-			allYears
+		axios.get(url)
+		.then((response) => {
+			this.setState({
+				all_makes_models: response.data
+			})
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.then(() => {
+			if (this._isMounted) {
+				this.setState({
+					isLoading: false,
+				});
+			}
 		})
 	}
 
+	itemMakeFormatDisplay(make_model_text) {
+		if (make_model_text == 'bmw') {
+			return 'BMW';
+		} else if (make_model_text == 'gmc') {
+			return 'GMC';
+		} else if (make_model_text == 'mclaren') {
+			return 'McLaren';
+		} else if (make_model_text == 'mercedes-benz') {
+			return 'Mercedes-Benz';
+		} else {
+			let mmt = make_model_text.replace(/-/g, ' ');
+			return mmt.toLowerCase().replace( /\b./g, function(a){ return a.toUpperCase(); } );	
+		}
+	}
+
+	getModels(make_name) {
+		const {all_makes_models} = this.state;
+
+		if (make_name && make_name != 'any') {
+			let model = all_makes_models.filter(all_makes_model => Object.keys(all_makes_model)[0] == make_name);
+			if (model[0][make_name].length > 0) {
+				this.setState({
+					modelContainer: model[0][make_name],
+				})
+			}
+		} else {
+			this.setState({
+				modelContainer: [],
+			})
+		}
+		
+	}
+
+	handleModelChange(event) {
+		this.getModels(event.target.value);
+		this.props.setsellYourCarFieldsMake(event.target.value);
+	}
+
 	componentDidMount() {
-		this.getYears();
 		window.scrollTo(0, 0);
+		this.getAllMakes();
 	}
 
 	componentWillUnmount() {
@@ -47,48 +95,60 @@ class SellYourCarDetails extends Component {
 	}
 
 	render() {
-		const {carMakes, getMakeId, values, handleChange, models, gettingModels, carDetailsSubmit, carDetailsError} = this.props;
-		const {allYears} = this.state;
-		const carMakeLength = carMakes.length;
-		const carModelsLength = models.length;
+		const {values, handleChange, carDetailsSubmit, carDetailsError} = this.props;
+		const {modelContainer, all_makes_models} = this.state;
+
+		let modelOptions = '';
+		let makeOptions = '';
+		let formYears = [];
+		let d = new Date();
+
+		if (all_makes_models.length > 0) {
+			makeOptions = all_makes_models.map((all_makes, index) => {
+				return <option key={index} value={Object.keys(all_makes)[0]}>{this.itemMakeFormatDisplay(Object.keys(all_makes)[0])}</option>
+			});
+		}
+
+		if (modelContainer.length > 0) {
+			modelOptions = modelContainer.map((model_container, index) => {
+				return <option key={index} value={model_container.value}>{model_container.display}</option>
+			})
+		} else {
+			modelOptions = '';
+		}
+
+		for (var y = d.getFullYear(); y >= 2000; y--) {
+			formYears.push(y);
+		}
 
 		return (
 			<div className="sell_your_car_steps_page">
 				<h1>Car Details</h1>
 				<div className="container">
-					<p><span>Step 1:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 					<form method="POST" onSubmit={carDetailsSubmit}>
 						<div className="form_item">
 							<label>Select A Make*</label>
-							<select name="car_make" disabled={carMakeLength > 0 ? "" : "disabled"} onChange={getMakeId} value={values.car_make} className={carDetailsError.car_make ? "error":""}>
-								<option value="">{carMakeLength > 0 ? "" : "Getting car makes..."}</option>
-								{
-									carMakes.map((carmake, index) => {
-										return <option key={index} value={carmake.slug} data-makeid={carmake.id}>{carmake.name}</option>
-									})
-								}
+							<select name="car_make" onChange={this.handleModelChange} value={values.car_make} className={carDetailsError.car_make ? "error":""}>
+								<option value=""></option>
+								{makeOptions}
 							</select>
 							<span>{carDetailsError.car_make}</span>
 						</div>
 						<div className="form_item">
 							<label>Select A Model (Select a Car Make first) *</label>
-							<select name="car_model" disabled={carModelsLength > 0 ? "" : "disabled"} onChange={handleChange} value={values.car_model} className={carDetailsError.car_model ? "error":""}>
-								<option value="">{gettingModels ? "Getting car models..." : ""}</option>
-								{
-									models.map((model, index) => {
-										return <option key={index} value={model.slug}>{model.name}</option>
-									})
-								}
+							<select name="car_model" disabled={modelContainer.length > 0 ? false : true} onChange={handleChange} value={values.car_model} className={carDetailsError.car_model ? "error":""}>
+								<option value=""></option>
+								{modelOptions}
 							</select>
 							<span>{carDetailsError.car_model}</span>
 						</div>
 						<div className="form_item">
 							<label>Select A Year *</label>
-							<select name="car_year" disabled={allYears.length > 0 ? "" : "disabled"} onChange={handleChange} value={values.car_year} className={carDetailsError.car_year ? "error":""}>
+							<select name="car_year" onChange={handleChange} value={values.car_year} className={carDetailsError.car_year ? "error":""}>
 								<option value=""></option>
 								{
-									allYears.map((allyear, index) => {
-										return <option key={index} value={allyear} >{allyear}</option>
+									formYears.map((formYear, index) => {
+										return <option value={formYear} key={index}>{formYear}</option>
 									})
 								}
 							</select>
@@ -306,7 +366,6 @@ class SellYourAppointment extends Component {
 			showTimings: [],
 			dateToday: date
 		})
-
 	}
 
 	addDays(date, days) {
@@ -355,11 +414,10 @@ class SellYourAppointment extends Component {
 	}
 
 	render() {
-		const {handleChange, values, prevForm, appointmentSubmit, appointmentError, isSending} = this.props;
+		const {handleChange, values, prevForm, appointmentSubmit, appointmentError, isSending, handleShowHideSending} = this.props;
 		const {dateToday, gettingAvailableTimes, showTimings} = this.state;
 
 		let showTimingsHtml = "";
-
 
 		if (showTimings.length > 0) {
 			showTimingsHtml = showTimings.map((showtiming, index) => {
@@ -371,9 +429,8 @@ class SellYourAppointment extends Component {
 			<div className="sell_your_car_steps_page">
 				<h1>Appointment</h1>
 				<div className="container">
-					<p><span>Step 2:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-					<form method="POST" onSubmit={appointmentSubmit}>
-						<div className="form_item mt-4">
+					<form method="POST" onSubmit={appointmentSubmit} autoComplete="off">
+						<div className="form_item">
 							<div className="form_item">
 								<label>First Name *</label>
 								<input type="text" name="first_name" onChange={handleChange} value={values.first_name || ''} className={appointmentError.first_name ? "error":""} />
@@ -425,9 +482,13 @@ class SellYourAppointment extends Component {
 						</div>
 					</form>
 				</div>
-				<TecModal modalToggle={isSending} showHideModal={this.handleShowHideSending} closeButton={false} modalDialog={true}>
-					<img src={pageLoading} className="img-fluid page-loading"/>
-				</TecModal>
+				<Modal
+					isActive={isSending}
+					toggle={handleShowHideSending}
+					closeButton={false}
+					overlayClick={false}>
+					<div className="text-center page-loading-container"><img src={pageLoading} className="img-fluid page-loading" /></div>
+				</Modal>
 			</div>
 		)
 	}
@@ -441,8 +502,6 @@ class SellYourCarStep extends Component {
 		this.state = {
 			step: 1,
 			sellYourCarFields: {},
-			models: [],
-			gettingModels: false,
 			carDetailsError: {},
 			appointmentError: {},
 			token: '',
@@ -451,75 +510,23 @@ class SellYourCarStep extends Component {
 			sendingError: ''
 		}
 
-		this.getAllModels = this.getAllModels.bind(this);
-		this.getMakeId = this.getMakeId.bind(this);
 		this.handleChange = this.handleChange.bind(this);
+		this.resetAppointmentTime = this.resetAppointmentTime.bind(this);
+		this.updateDatePicker = this.updateDatePicker.bind(this);
+
 		this.nextForm = this.nextForm.bind(this);
 		this.prevForm = this.prevForm.bind(this);
 		this.carDetailsSubmit = this.carDetailsSubmit.bind(this);
 		this.appointmentSubmit = this.appointmentSubmit.bind(this);
-		this.resetAppointmentTime = this.resetAppointmentTime.bind(this);
+		this.submitSellYourCar = this.submitSellYourCar.bind(this);
 		this.validateCarDetails = this.validateCarDetails.bind(this);
 		this.validateAppointment = this.validateAppointment.bind(this);
-		this.updateDatePicker = this.updateDatePicker.bind(this);
 		this.getAppointmentTicket = this.getAppointmentTicket.bind(this);
-		this.submitSellYourCar = this.submitSellYourCar.bind(this);
+		
 		this.addCustomClassBodyApp = this.addCustomClassBodyApp.bind(this);
 		this.removeCustomClassBodyApp = this.removeCustomClassBodyApp.bind(this);
 		this.handleShowHideSending = this.handleShowHideSending.bind(this);
-	}
-
-	getAllModels(makeid) {
-
-		const url = `https://theelitecars.com/wp-json/wp/v2/makes_models?parent=${makeid}&per_page=100`;
-
-		if (this._isMounted) {
-			this.setState({
-				models: [],
-				gettingModels: true,
-			})
-		}
-
-		axios.get(url)
-		.then((response) => {
-			if (this._isMounted) {
-				this.setState({
-					models: response.data,
-				});
-			}
-		})
-		.catch((error) => {
-			console.log(error);
-		})
-		.then(() => {
-			if (this._isMounted) {
-				this.setState({
-					gettingModels: false,
-				});
-			}
-		})
-	}
-
-	getMakeId(event) {
-		const makeid = event.target[event.target.selectedIndex].getAttribute('data-makeid');
-		const { sellYourCarFields } = this.state;
-		sellYourCarFields[event.target.name] = event.target.value;
-		sellYourCarFields['car_model'] = "";
-
-		if (makeid) {
-			this.getAllModels(makeid);
-			if (this._isMounted) {
-				this.setState({
-					sellYourCarFields
-				})
-			}
-		} else {
-			if (this._isMounted) {
-				this.setState({
-					models: []
-				})
-			}
-		}
+		this.setsellYourCarFieldsMake = this.setsellYourCarFieldsMake.bind(this);
 	}
 
 	handleChange(event) {
@@ -585,13 +592,11 @@ class SellYourCarStep extends Component {
 
 		const {sellYourCarFields} = this.state;
 
-		console.log(sellYourCarFields)
-
 		this.setState({
 			isSending: true
 		});
 
-		axios.post('http://localhost/tecmobilewebsite/controllers/tec_send_mail/sell_your_car_send.php', sellYourCarFields)
+		axios.post('https://theelitecars.com/mobile/controllers/tec_send_mail/sell_your_car_send.php', sellYourCarFields)
 		.then(
 			(response) => {
 
@@ -891,16 +896,26 @@ class SellYourCarStep extends Component {
 
 	handleShowHideSending() {
 
-		let isSending = this.state.isSending;
+		const {isSending}  = this.state;
 
 		if (isSending) {
-			isSending = false;
 			this.removeCustomClassBodyApp();
-	    	this.setState({isSending});
+	    	this.setState({isSending: false});
 		} else {
-			isSending = true;
 			this.addCustomClassBodyApp();
-	    	this.setState({isSending});
+	    	this.setState({isSending: true});
+		}
+	}
+
+	setsellYourCarFieldsMake(make_name_value) {
+		const { sellYourCarFields } = this.state;
+		sellYourCarFields['car_make'] = make_name_value;
+		sellYourCarFields['car_model'] = "";
+
+		if (this._isMounted) {
+			this.setState({
+				sellYourCarFields
+			})
 		}
 	}
 
@@ -937,12 +952,9 @@ class SellYourCarStep extends Component {
 		switch(this.state.step) {
 			case 1:
 				return <SellYourCarDetails 
-					carMakes={this.props.carMakes} 
-					models={this.state.models} 
-					getMakeId={this.getMakeId} 
+					setsellYourCarFieldsMake={this.setsellYourCarFieldsMake} 
 					handleChange={this.handleChange} 
-					values={this.state.sellYourCarFields} 
-					gettingModels={this.state.gettingModels}
+					values={this.state.sellYourCarFields}
 					carDetailsSubmit={this.carDetailsSubmit}
 					carDetailsError={this.state.carDetailsError}/>
 			break;

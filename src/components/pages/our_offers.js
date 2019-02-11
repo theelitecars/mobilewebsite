@@ -251,10 +251,10 @@ class Offers extends Component {
 					<div className="sort">
 						<select name="sort_cars" onChange={this.handleSortSelect} >
 							<option>Sort By</option>
-							<option value="1">&#x1f809; Stocks</option>
-							<option value="2">&#x1f80b; Stocks</option>
-							<option value="3">&#x1f809; Price</option>
-							<option value="4">&#x1f80b; Price</option>
+							<option value="1">Newest to Oldest Stocks</option>
+							<option value="2">Oldest to Newest Stocks</option>
+							<option value="3">Highest to Lowest Price</option>
+							<option value="4">Lowest to Highest Price</option>
 						</select>
 						<i className="material-icons">sort</i>
 					</div>	
@@ -268,7 +268,7 @@ class Offers extends Component {
 					title="Filter Vehicles"
 					toggle={this.toggleFilter}
 					slideRight={filter_visible}>
-					<FilterCars carMakes={carMakes} submit={this.handleFilterSubmit} />
+					<FilterCars filterSubmit={this.handleFilterSubmit} />
 				</SlideRight>
 			</div>
 		)

@@ -105,7 +105,7 @@ class News extends Component {
 				<div className="news_list_item">
 					<figure>
 						<NavLink to={"/news/" + bloghtml.slug}>
-							<img src={bloghtml._embedded["wp:featuredmedia"][0].source_url} className="img-fluid" />
+							<div className="news_image" style={{backgroundImage: `url('${bloghtml._embedded["wp:featuredmedia"][0].source_url}')`}}></div>
 						</NavLink>
 					</figure>
 					<NavLink to={"/news/" + bloghtml.slug}><h3 dangerouslySetInnerHTML={this.createMarkup(bloghtml.title.rendered)} /></NavLink>
@@ -119,7 +119,7 @@ class News extends Component {
 				<div className="container">
 					<div className="row news_lists">
 						{newsHtml}
-						{this.state.isLoading ? ( <div className="pageloading"><img src={pageLoading} className="img-fluid"/></div> ) : ''}
+						{this.state.isLoading ? ( <div className="col-12 text-center"><img src={pageLoading} className="img-fluid page-loading"/></div> ) : ''}
 					</div>
 				</div>
 			</div>

@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import axios from 'axios';
 
+import pageLoading from '../images/pageload.gif';
+
 class SingleNews extends Component {
 
 	constructor(props) {
@@ -57,15 +59,12 @@ class SingleNews extends Component {
 
 	render() {
 
-		let singleNewsHtml = <span>Loading</span>
+		let singleNewsHtml = <div className="text-center my-4"><img src={pageLoading} className="img-fluid page-loading"/></div>
 
 		if (!this.state.isLoading) {
 			singleNewsHtml = this.state.singlePost.map((singlebloghtml, index) => 
 				<div key={index} className="single_news_container">
 					<h1 dangerouslySetInnerHTML={this.createMarkup(singlebloghtml.title.rendered)} />
-					<figure>
-						<img src={singlebloghtml._embedded["wp:featuredmedia"][0].source_url} className="img-fluid" />
-					</figure>
 					<div className="content" dangerouslySetInnerHTML={this.createMarkup(singlebloghtml.content.rendered)} />
 				</div>
 			)

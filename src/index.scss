@@ -1,0 +1,32 @@
+@import "~slick-carousel/slick/slick.css";
+
+/* common */
+@import "./css/common/variables.scss";
+@import "./css/common/default.scss";
+@import "./css/common/general.scss";
+@import "./css/common/header.scss";
+@import "./css/common/footer.scss";
+
+/* pages */
+@import "./css/pages/home.scss";
+@import "./css/pages/our_stocks.scss";
+@import "./css/pages/single_view.scss";
+@import "./css/pages/sell_your_car.scss";
+@import "./css/pages/about_us.scss";
+@import "./css/pages/careers.scss";
+@import "./css/pages/chat.scss";
+@import "./css/pages/contact_us.scss";
+@import "./css/pages/export.scss";
+@import "./css/pages/location.scss";
+@import "./css/pages/news.scss";
+@import "./css/pages/services.scss";
+@import "./css/pages/single_news.scss";
+@import "./css/pages/social_media_gallery.scss";
+@import "./css/pages/testimonials.scss";
+@import "./css/pages/video_gallery.scss";
+@import "./css/pages/write_your_feedback.scss";
+@import "./css/pages/index.scss";
+@import "./css/pages/thank_you.scss";
+
+/* views */
+@import "./css/views/car_list.scss";

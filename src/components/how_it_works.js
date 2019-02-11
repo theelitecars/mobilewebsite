@@ -27,6 +27,10 @@ class HowItWorks extends Component {
 					<p><strong>Step 1:</strong> Provide us with the complete and correct details of your car.</p>
 					<p><strong>Step 2:</strong> Bring your car to our showroom and let our team of professionals inspect it to verify its condition. When done, get a great cash offer in just a matter of minutes.</p>
 					<p>Amazing, isn’t it?</p>
+					<div className="appointment">
+						<h2 className="mb-3">Start Selling Your Car Today!</h2>
+						<Link to="/sell-your-car/steps" className="tec_button mx-auto">Proceed</Link>
+					</div>
 				</div>
 			</div>
 		)
