@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 import headerImage from '../images/meet_our_team.jpg';
 
@@ -25,6 +26,20 @@ class MeetOurTeam extends Component {
 	render() {
 		return (
 			<div className="about_us">
+				<Helmet>
+
+					<title>The Elite Cars | Our Team</title>
+					<meta name="description" content="Our knowledgeable team of multilingual sales executives are always available to help you make the right purchasing decision. Their expertise and experience make the entire process of car buying and selling smooth and easy."/>
+					<link rel="canonical" href="https://theelitecars.com/our-team/" />
+
+					<meta name="og:title" property="og:title" content="The Elite Cars | Our Team" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Our knowledgeable team of multilingual sales executives are always available to help you make the right purchasing decision. Their expertise and experience make the entire process of car buying and selling smooth and easy." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={headerImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/our-team/" />
+
+				</Helmet>
 				<h1>Meet Our Team</h1>
 				<div className="container">
 					<img src={headerImage} className="img-fluid header-image" alt="About Us - Meet Our Team" title="About Us - Meet Our Team" />

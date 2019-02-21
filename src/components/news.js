@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink, Switch } from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
+import slideHeaderImage from '../images/menu_header.jpg';
 import pageLoading from '../images/pageload.gif';
 
 class News extends Component {
@@ -115,6 +117,20 @@ class News extends Component {
 
 		return (
 			<div className="news_page">
+				<Helmet>
+
+					<title>News Room - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="Looking best Car Offers in UAE. Land Rover, Jaguar, BMW, Porsche, Mercedes cars offers in Dubai, best car deals for new and used cars for sale in Dubai."/>
+					<link rel="canonical" href="https://theelitecars.com/news/" />
+
+					<meta name="og:title" property="og:title" content="News Room - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Looking best Car Offers in UAE. Land Rover, Jaguar, BMW, Porsche, Mercedes cars offers in Dubai, best car deals for new and used cars for sale in Dubai." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/news/" />
+
+				</Helmet>
 				<h1>News</h1>
 				<div className="container">
 					<div className="row news_lists">

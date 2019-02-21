@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 import pageLoading from '../images/pageload.gif';
+import slideHeaderImage from '../images/menu_header.jpg';
 
 class Testimonials extends Component {
 
@@ -117,6 +119,20 @@ class Testimonials extends Component {
 
 		return (
 			<div className="testimonial_page">
+				<Helmet>
+
+					<title>Testimonials by Elite Cars Customers</title>
+					<meta name="description" content="Testimonials by elite customers and their experience with The Elite Cars, the leading car resellers in Dubai for new and old cars"/>
+					<link rel="canonical" href="https://theelitecars.com/testimonials/" />
+
+					<meta name="og:title" property="og:title" content="Testimonials by Elite Cars Customers" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Testimonials by elite customers and their experience with The Elite Cars, the leading car resellers in Dubai for new and old cars" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/testimonials/" />
+
+				</Helmet>
 				<h1>Testimonials</h1>
 				<div className="container">
 					<div className="row testimonials_lists">

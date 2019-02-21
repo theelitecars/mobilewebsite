@@ -10,6 +10,8 @@ import OurStocks from './pages/our_stocks';
 import OurOffers from './pages/our_offers';
 import SingleView from './pages/single_view';
 import EmailToAFriend from './pages/email_to_a_friend';
+import TermsOfUse from './pages/terms_of_use';
+import PrivacyPolicy from './pages/privacy_policy';
 
 /* Common */
 import Header from './common/header';
@@ -98,7 +100,7 @@ class App extends Component {
 		}
 
 		return (
-			<Router basename="/mobile">
+			<Router>
 				<ScrollToTop>
 					<div>
 						<Header handleMenuButton={this.handleMenuButton}/>
@@ -135,6 +137,8 @@ class App extends Component {
 							<Route path="/trade-in/steps" exact render={()=><TradeInStep carMakes={this.state.makes_models} />} />
 							<Route path="/email-to-a-friend" component={EmailToAFriend} />
 							<Route path="/empty" component={null} key="empty"/>
+							<Route path="/terms-of-use" exact component={TermsOfUse}/>
+							<Route path="/privacy-policy" exact component={PrivacyPolicy}/>
 						</Switch>
 						<Footer />
 						<MenuSlide menuVisibility={this.state.menu_visible} handleMenuButton={this.handleMenuButton} />

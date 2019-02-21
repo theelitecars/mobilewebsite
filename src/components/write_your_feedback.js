@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 import headerImage from '../images/write_your_feedback.jpg';
 import pageLoading from '../images/pageload.gif';
@@ -250,6 +251,20 @@ class WriteYourFeedback extends Component {
 
 		return (
 			<div className="write_your_feedback_page">
+				<Helmet>
+
+					<title>Write Your Feedback - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="Thank you for choosing The Elite Cars. It is our pleasure to provide you with the best quality of service that you deserve. Your valuable feedback will help us ..."/>
+					<link rel="canonical" href="https://theelitecars.com/writeareview/" />
+
+					<meta name="og:title" property="og:title" content="Write Your Feedback - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Thank you for choosing The Elite Cars. It is our pleasure to provide you with the best quality of service that you deserve. Your valuable feedback will help us ..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={headerImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/writeareview/" />
+
+				</Helmet>
 				<h1>Write Your Feedback</h1>
 				<div className="container">
 					<img src={headerImage} className="img-fluid header-image" alt="The Elite Cars - Write Your Feedback" title="The Elite Cars - Write Your Feedback" />

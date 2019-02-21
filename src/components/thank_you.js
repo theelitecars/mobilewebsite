@@ -129,6 +129,18 @@ class ThankYou extends Component {
 	render() {
 		return (
 			<div className="thank_you_page">
+				<Helmet>
+
+					<title>Thank You - The Elite Cars | The True Definition of Luxury</title>
+					<link rel="canonical" href="https://theelitecars.com/thank-you" />
+
+					<meta name="og:title" property="og:title" content="Thank You - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={thankyou} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/thank-you" />
+
+				</Helmet>
 				<h1>Thank You</h1>
 				<div className="container">
 					<img src={thankyou} className="img-fluid mb-3" />

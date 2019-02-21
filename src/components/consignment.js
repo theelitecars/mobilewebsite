@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect} from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 import ConsignmentStepOne from './consignment_step_1';
 import Modal from './web-components/modal';
 import pageLoading from '../images/pageload.gif';
+
+import slideHeaderImage from '../images/menu_header.jpg';
 
 class Consignment extends Component {
 	constructor(props) {
@@ -435,6 +438,20 @@ class Consignment extends Component {
 
 		return (
 			<div className="sell_your_car_page consignment">
+				<Helmet>
+
+					<title>Consignment - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="Consignment If you think that your car is worthy of a higher value than our cash offer, then you can opt for our consignment service. This is designed to provide you with better selling opportunities, and among the privileges you can enjoy are as follows: Display your car at our..."/>
+					<link rel="canonical" href="https://theelitecars.com/consignment/" />
+
+					<meta name="og:title" property="og:title" content="Consignment - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Consignment If you think that your car is worthy of a higher value than our cash offer, then you can opt for our consignment service. This is designed to provide you with better selling opportunities, and among the privileges you can enjoy are as follows: Display your car at our..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/consignment/" />
+
+				</Helmet>
 				<h1>Consignment</h1>
 				<div className="container">
 					<p>If you think that your car is worthy of a higher value than our cash offer, then you can opt for our consignment service. This is designed to provide you with better selling opportunities, and among the privileges you can enjoy are as follows:</p>

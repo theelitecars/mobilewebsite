@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 import headerImage from '../images/service_department.jpg';
 import pageLoading from '../images/pageload.gif';
@@ -488,6 +489,20 @@ class ServiceDepartment extends Component {
 
 		return (
 			<div className="service_page">
+				<Helmet>
+
+					<title>Service Department  - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="At The Elite Cars, we don’t just sell cars. Our partner company, Elite Motors Services, offers a range of services including maintenance, repair and valet services. Hence, you will never have to experience the hassle of searching all over Dubai for a reliable car service center that specializes in luxury..."/>
+					<link rel="canonical" href="https://theelitecars.com/service-department/" />
+
+					<meta name="og:title" property="og:title" content="Service Department  - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="At The Elite Cars, we don’t just sell cars. Our partner company, Elite Motors Services, offers a range of services including maintenance, repair and valet services. Hence, you will never have to experience the hassle of searching all over Dubai for a reliable car service center that specializes in luxury..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={headerImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/service-department/" />
+
+				</Helmet>
 				<h1>Service Department</h1>
 				<div className="container">
 					<img src={headerImage} className="img-fluid header-image" alt="Service Department" title="Service Department" />

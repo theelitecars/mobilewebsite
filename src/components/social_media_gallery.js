@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
-import axios from 'axios';
+import jsonp from 'jsonp';
+import { Helmet } from 'react-helmet';
 
 import TecModal from './modal';
 import Modal from './web-components/modal';
+import slideHeaderImage from '../images/menu_header.jpg';
 
 class SocialMediaGallery extends Component {
 
@@ -27,7 +29,27 @@ class SocialMediaGallery extends Component {
 
 		const url = `https://api.instagram.com/v1/users/self/media/recent/?access_token=${accessToken}`;
 
-		axios.get(url)
+		jsonp( url, null, (err, data) => {
+			if (err) {
+				console.error(err.message);
+			} else {
+				if (this._isMounted) {
+					this.setState({
+						socialMediaImage: data.data,
+						scrolling: false,
+					});
+				}
+			}
+			
+			if (this._isMounted) {
+				this.setState({
+					isLoading: false,
+				});
+			}
+			
+		});
+
+		/*axios.get(url)
 		.then((response) => {
 			if (this._isMounted) {
 				this.setState({
@@ -47,7 +69,7 @@ class SocialMediaGallery extends Component {
 					isLoading: false,
 				});
 			}
-		})
+		})*/
 	}
 
 	addCustomClassBodyApp() {
@@ -116,6 +138,18 @@ class SocialMediaGallery extends Component {
 
 		return (
 			<div className="social_media_gallery_page">
+				<Helmet>
+
+					<title>SOCIAL MEDIA GALLERY - The Elite Cars | The True Definition of Luxury</title>
+					<link rel="canonical" href="https://theelitecars.com/used-cars-showroom-gallery/" />
+
+					<meta name="og:title" property="og:title" content="The Elite cars | Video Gallery" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/used-cars-showroom-gallery/" />
+
+				</Helmet>
 				<h1>Social Media Gallery</h1>
 				<div className="container">
 					<div className="row social_media_gallery_lists">

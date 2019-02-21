@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
+
+import slideHeaderImage from '../images/menu_header.jpg';
 
 class Faq extends Component {
 	constructor(props) {
@@ -25,6 +28,20 @@ class Faq extends Component {
 	render() {
 		return (
 			<div className="sell_your_car_page faq">
+				<Helmet>
+
+					<title>FAQ&#039;s - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="FAQ’s What’s the process in selling a car to you? Visit the &#8216;How It Works&#8217; page to get a complete picture of the entire process, which involves three quick and simple steps: Step 1: Provide complete and correct details of your car on our free online car evaluation form and..."/>
+					<link rel="canonical" href="https://theelitecars.com/faqs/" />
+
+					<meta name="og:title" property="og:title" content="FAQ&#039;s - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="FAQ’s What’s the process in selling a car to you? Visit the &#8216;How It Works&#8217; page to get a complete picture of the entire process, which involves three quick and simple steps: Step 1: Provide complete and correct details of your car on our free online car evaluation form and..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/faqs/" />
+
+				</Helmet>
 				<h1>FAQ's</h1>
 				<div className="container">
 					<div className="dropdown_group">

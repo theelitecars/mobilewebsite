@@ -24,6 +24,8 @@ class Stocks extends Component {
 			<div className="text-center"><Link to="/contact-us" className="tec-button mx-auto">Inquire Now</Link></div>
 		</div>;
 
+		console.log(stocks);
+
 		if (stocks.length > 0) {
 			stocksItems = stocks.map((stocksItem, index) =>
 				<div key={index} className="mb-3 col-12">
@@ -32,7 +34,8 @@ class Stocks extends Component {
 						state: {
 							carname: stocksItem.title.rendered,
 							carprice: stocksItem.post_meta_fields.sale_price && stocksItem.post_meta_fields.sale_price[0] !== "" ? stocksItem.post_meta_fields.sale_price[0] : stocksItem.post_meta_fields.car_price[0],
-							exteriorColor: stocksItem.post_meta_fields['exterior-color'][0]
+							exteriorColor: stocksItem.post_meta_fields['exterior-color'][0],
+							carimage: stocksItem.gallery_images[0],
 						}
 					}}>
 						<CarListView carDetails={stocksItem} />

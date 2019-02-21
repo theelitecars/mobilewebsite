@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 import headerImage from '../images/our_story.jpg';
 
@@ -7,6 +8,22 @@ class OurStory extends Component {
 	render() {
 		return (
 			<div className="about_us">
+
+				<Helmet>
+
+					<title>The Elite Cars - Leading Luxury Car Dealer, Car Showroom in Dubai - UAE</title>
+					<meta name="description" content="Leading luxury car dealership in the UAE for new &amp; pre-owned luxury cars such as Range Rover, BMW, Jaguar, Lamborghini, Ferrari, Porsche, and Bentley."/>
+					<link rel="canonical" href="https://theelitecars.com/about-us/" />
+
+					<meta name="og:title" property="og:title" content="The Elite Cars - Leading Luxury Car Dealer, Car Showroom in Dubai - UAE" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Leading luxury car dealership in the UAE for new &amp; pre-owned luxury cars such as Range Rover, BMW, Jaguar, Lamborghini, Ferrari, Porsche, and Bentley." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={headerImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/about-us/" />
+
+				</Helmet>
+
 				<h1>Our Story</h1>
 				<div className="container">
 					<img src={headerImage} className="img-fluid header-image" alt="About Us - Our Story" title="About Us - Our Story" />

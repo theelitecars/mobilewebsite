@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 
+import slideHeaderImage from '../../images/menu_header.jpg';
+
 import Stocks from '../views/stocks';
 import SlideRight from '../web-components/slide_right';
 import FilterCars from '../common/filter';
@@ -261,9 +263,18 @@ class OurStocks extends Component {
 		return (
 			<div className="our_stocks">
 				<Helmet>
+
 					<title>The Elite Cars | New &amp; Used Cars in Dubai | Best Price | Used Cars for sale in Dubai</title>
 					<meta name="description" content="New &amp; Used Cars in Dubai, New and used Cars for sale in Dubai approved used cars e.g. Ferrari, Porsche, Land Rover, Range Rover, Mercedes, Jaguar, BMW, etc"/>
 					<link rel="canonical" href="https://theelitecars.com/pre-owned-used-approved-cars-dubai/" />
+
+					<meta name="og:title" property="og:title" content="The Elite Cars | New &amp; Used Cars in Dubai | Best Price | Used Cars for sale in Dubai" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="New &amp; Used Cars in Dubai, New and used Cars for sale in Dubai approved used cars e.g. Ferrari, Porsche, Land Rover, Range Rover, Mercedes, Jaguar, BMW, etc" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/pre-owned-used-approved-cars-dubai/" />
+
 				</Helmet>
 				<h1>Our Latest Stocks</h1>
 				<div className="sort_filter">

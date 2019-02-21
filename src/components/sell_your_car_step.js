@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Link, NavLink, Redirect } from "react-r
 import axios from 'axios';
 import DatePicker from "react-datepicker";
 
+import { Helmet } from 'react-helmet';
+import slideHeaderImage from '../images/menu_header.jpg';
+
 import "react-datepicker/dist/react-datepicker.css";
 
 import pageLoading from '../images/pageload.gif';
@@ -123,6 +126,20 @@ class SellYourCarDetails extends Component {
 
 		return (
 			<div className="sell_your_car_steps_page">
+
+				<Helmet>
+
+					<title>Sell Your Car - The Elite Cars | The True Definition of Luxury</title>
+					<link rel="canonical" href="https://theelitecars.com/sell-your-car/" />
+
+					<meta name="og:title" property="og:title" content="Sell Your Car - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/sell-your-car/" />
+
+				</Helmet>
+
 				<h1>Car Details</h1>
 				<div className="container">
 					<form method="POST" onSubmit={carDetailsSubmit}>
@@ -427,6 +444,18 @@ class SellYourAppointment extends Component {
 
 		return(
 			<div className="sell_your_car_steps_page">
+				<Helmet>
+
+					<title>Sell Your Car - The Elite Cars | The True Definition of Luxury</title>
+					<link rel="canonical" href="https://theelitecars.com/sell-your-car/" />
+
+					<meta name="og:title" property="og:title" content="Sell Your Car - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/sell-your-car/" />
+
+				</Helmet>
 				<h1>Appointment</h1>
 				<div className="container">
 					<form method="POST" onSubmit={appointmentSubmit} autoComplete="off">

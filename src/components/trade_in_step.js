@@ -8,6 +8,9 @@ import { CarListViewMinified } from './views/car_lists';
 import TecModal from './modal';
 import Modal from './web-components/modal';
 
+import { Helmet } from 'react-helmet';
+import slideHeaderImage from '../images/menu_header.jpg';
+
 import 'react-rangeslider/lib/index.css';
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -127,6 +130,20 @@ class CarDetailsTradeIn extends Component {
 
 		return (
 			<div className="sell_your_car_steps_page">
+				<Helmet>
+
+					<title>Trade-In - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="Want to take your drives to the next level? Here at The Elite Cars, you can upgrade your car to any luxury brand and model of your choice. Take your pick from our wide collection of iconic cars under one roof that will suit your taste, lifestyle and budget.Your satisfaction..."/>
+					<link rel="canonical" href="https://theelitecars.com/trade-in/" />
+
+					<meta name="og:title" property="og:title" content="Trade-In - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Want to take your drives to the next level? Here at The Elite Cars, you can upgrade your car to any luxury brand and model of your choice. Take your pick from our wide collection of iconic cars under one roof that will suit your taste, lifestyle and budget.Your satisfaction..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/trade-in/" />
+
+				</Helmet>
 				<h1>Trade-In - Car Details</h1>
 				<div className="container">
 					<form method="POST" onSubmit={carDetailsSubmit}>
@@ -403,6 +420,20 @@ class CarSelectTradeIn extends Component {
 		
 		return (
 			<div className="sell_your_car_steps_page">
+				<Helmet>
+
+					<title>Trade-In - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="Want to take your drives to the next level? Here at The Elite Cars, you can upgrade your car to any luxury brand and model of your choice. Take your pick from our wide collection of iconic cars under one roof that will suit your taste, lifestyle and budget.Your satisfaction..."/>
+					<link rel="canonical" href="https://theelitecars.com/trade-in/" />
+
+					<meta name="og:title" property="og:title" content="Trade-In - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Want to take your drives to the next level? Here at The Elite Cars, you can upgrade your car to any luxury brand and model of your choice. Take your pick from our wide collection of iconic cars under one roof that will suit your taste, lifestyle and budget.Your satisfaction..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/trade-in/" />
+
+				</Helmet>
 				<h1>Trade-In - Select Car</h1>
 				<div className="container">
 					{ sendingError ? (
@@ -642,6 +673,20 @@ class AppointmentTradeIn extends Component {
 
 		return (
 			<div className="sell_your_car_steps_page">
+				<Helmet>
+
+					<title>Trade-In - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="Want to take your drives to the next level? Here at The Elite Cars, you can upgrade your car to any luxury brand and model of your choice. Take your pick from our wide collection of iconic cars under one roof that will suit your taste, lifestyle and budget.Your satisfaction..."/>
+					<link rel="canonical" href="https://theelitecars.com/trade-in/" />
+
+					<meta name="og:title" property="og:title" content="Trade-In - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Want to take your drives to the next level? Here at The Elite Cars, you can upgrade your car to any luxury brand and model of your choice. Take your pick from our wide collection of iconic cars under one roof that will suit your taste, lifestyle and budget.Your satisfaction..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/trade-in/" />
+
+				</Helmet>
 				<h1>Trade-In - Appointment</h1>
 				<div className="container">
 					{ sendingError ? (

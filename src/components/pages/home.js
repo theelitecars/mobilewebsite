@@ -7,6 +7,7 @@ import { Helmet } from 'react-helmet';
 import { CarListView, CarListViewLoading, CarListViewNoNumber } from '../views/car_lists';
 
 import pageLoading from '../../images/pageload.gif';
+import slideHeaderImage from '../../images/menu_header.jpg';
 
 const imageFilename = (url) => {
 	const imagename = url.split('/').pop();
@@ -20,27 +21,32 @@ class HomeSlider extends Component {
 		this.state = {
 			sliderImages: [],
 		}
+
+		this.getSlider = this.getSlider.bind(this);
+	}
+
+	getSlider() {
+		const url = `http://theelitecars.com/mobile/controllers/sliders.php`;
+
+		axios.get(url)
+		.then((response) => {
+			if (this._isMounted) {
+				this.setState({
+					sliderImages: response.data,
+				});
+			}
+		})
+		.catch((error) => {
+			console.log(error);
+		})
+		.then(() => {
+
+		})
 	}
 
 	componentDidMount() {
 		this._isMounted = true;
-
-		const sliderImages = [
-			'https://theelitecars.com/wp-content/uploads/2018/11/featured-banner.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/11/the-elite-cars-choose-it-own-it.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/11/november-promotion-3.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/09/Banner-2.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/10/Banner-4-3.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/09/Banner-5-1.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/10/Banner-7-4.jpg',
-			'https://theelitecars.com/wp-content/uploads/2018/11/the-elite-cars-generic.jpg'
-		]
-
-		if (this._isMounted) {
-			this.setState({
-				sliderImages: sliderImages,
-			});	
-		}
+		this.getSlider();
 	}
 
 	componentWillUnmount() {
@@ -52,7 +58,10 @@ class HomeSlider extends Component {
 
 	render() {
 
-		const {sliderImages, noConnectionError} = this.state;
+		const {sliderImages} = this.state;
+
+		let dummyArray = [0, 1, 2, 3, 4, 5];
+		let slider = '';
 
 		const mainSliderSettings = {
 			dots: false,
@@ -65,15 +74,23 @@ class HomeSlider extends Component {
   			autoplaySpeed: 3000,
 		}
 
+		if (sliderImages.length > 0) {
+			slider = sliderImages.map((sliderImage, index) => {
+				return (<div key={index}>
+					<img src={sliderImage} className="img-fluid" alt={imageFilename(sliderImage)} />
+				</div>)
+			});
+		} else {
+			slider = dummyArray.map((da, index) => {
+				return (<div key={index}>
+					<div className="dummy_slider"><img src={pageLoading} className="img-fluid"/></div>
+				</div>)
+			});
+		}
+
 		return (
 			<Slider {...mainSliderSettings}>
-				{
-					sliderImages.map((sliderImage, index) =>
-						<div key={index}>
-							<img src={sliderImage} className="img-fluid" alt={imageFilename(sliderImage)} />
-						</div>
-					)
-				}
+				{ slider }
 			</Slider>
 		)
 	}
@@ -805,9 +822,18 @@ class Home extends Component {
 		return (
 			<div className="home_page">
 				<Helmet>
+
 					<title>The Elite Cars | The True Definition of Luxury - The Elite Cars for brand new and pre-owned luxury cars in Dubai</title>
 					<meta name="description" content="The Elite Cars, Leading new and pre-owned luxury car dealers in UAE. We have a large selection of Jaguar, Range Rover, Bentley, Porsche, Audi, BMW and more."/>
 					<link rel="canonical" href="https://theelitecars.com/" />
+
+					<meta name="og:title" property="og:title" content="The Elite Cars | The True Definition of Luxury - The Elite Cars for brand new and pre-owned luxury cars in Dubai" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="The Elite Cars, Leading new and pre-owned luxury car dealers in UAE. We have a large selection of Jaguar, Range Rover, Bentley, Porsche, Audi, BMW and more." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/" />
+
 				</Helmet>
 				<HomeSlider />
 				<div className="container-fluid py-4">

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
+import { Helmet } from 'react-helmet';
 
 import headerImage from '../images/careers.jpg';
 
@@ -7,6 +8,20 @@ class Careers extends Component {
 	render() {
 		return (
 			<div className="careers_page">
+				<Helmet>
+
+					<title>Jobs at The Elite Cars | Latest Careers | Get an Opportunity</title>
+					<meta name="description" content="The Elite Cars Careers- The True Definition of luxury. Latest job opportunities at The Elite Cars, Dubai United Arab Emirates. Send us you CV."/>
+					<link rel="canonical" href="https://theelitecars.com/career/" />
+
+					<meta name="og:title" property="og:title" content="Jobs at The Elite Cars | Latest Careers | Get an Opportunity" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="The Elite Cars Careers- The True Definition of luxury. Latest job opportunities at The Elite Cars, Dubai United Arab Emirates. Send us you CV." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={headerImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/career/" />
+
+				</Helmet>
 				<h1>Careers</h1>
 				<div className="container">
 					<img src={headerImage} className="img-fluid header-image" alt="The Elite Cars - Careers" title="The Elite Cars - Careers" />

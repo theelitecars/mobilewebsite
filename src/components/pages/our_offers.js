@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import { Helmet } from 'react-helmet';
 
+import slideHeaderImage from '../../images/menu_header.jpg';
+
 import Stocks from '../views/stocks';
 import SlideRight from '../web-components/slide_right';
 import FilterCars from '../common/filter';
@@ -246,6 +248,22 @@ class Offers extends Component {
 
 		return (
 			<div className="our_stocks">
+
+				<Helmet>
+
+					<title>Best Car Offers| Car Deals in Dubai |Luxury Cars|The Elite Cars</title>
+					<meta name="description" content="Looking best Car Offers in UAE. Land Rover, Jaguar, BMW, Porsche, Mercedes cars offers in Dubai, best car deals for new and used cars for sale in Dubai."/>
+					<link rel="canonical" href="https://theelitecars.com/used-cars-promotion-and-offer-in-dubai/" />
+
+					<meta name="og:title" property="og:title" content="Best Car Offers| Car Deals in Dubai |Luxury Cars|The Elite Cars" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="Looking best Car Offers in UAE. Land Rover, Jaguar, BMW, Porsche, Mercedes cars offers in Dubai, best car deals for new and used cars for sale in Dubai." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/used-cars-promotion-and-offer-in-dubai/" />
+
+				</Helmet>
+
 				<h1>Our Hottest Deals</h1>
 				<div className="sort_filter">
 					<div className="sort">

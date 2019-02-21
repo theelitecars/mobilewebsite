@@ -1,14 +1,31 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 import step_one from '../images/step1.png';
 import step_two from '../images/step2.png';
+
+import slideHeaderImage from '../images/menu_header.jpg';
 
 class HowItWorks extends Component {
 	render() {
 		return (
 			<div className="sell_your_car_page how_it_works">
+				<Helmet>
+
+					<title>How It Works - The Elite Cars | The True Definition of Luxury</title>
+					<meta name="description" content="HOW IT WORKS TELL US SOMETHING ABOUT YOUR CAR Enter correct details on the free evaluation form and book an appointment. BRING YOUR CAR AND GET YOUR CASH Let us inspect it and we&#8217;ll pay you instantly. We eliminate all the drama entailed in selling a car through our quick..."/>
+					<link rel="canonical" href="https://theelitecars.com/how-it-works" />
+
+					<meta name="og:title" property="og:title" content="How It Works - The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="HOW IT WORKS TELL US SOMETHING ABOUT YOUR CAR Enter correct details on the free evaluation form and book an appointment. BRING YOUR CAR AND GET YOUR CASH Let us inspect it and we&#8217;ll pay you instantly. We eliminate all the drama entailed in selling a car through our quick..." />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/how-it-works" />
+
+				</Helmet>
 				<h1>How It Works</h1>
 				<div className="container">
 					<div className="row steps_graph mb-4">

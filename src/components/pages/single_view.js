@@ -817,12 +817,23 @@ class SingleView extends Component {
 		const { singleViewCar, isLoading, carSold, badgeText, salePrice, carPrice, inquiryFormIsSending } = this.state;
 		let singleViewCarHtml = <div className="my-5 text-center"><img src={pageLoading} className="img-fluid page-loading"/></div>;
 
+		console.log(this.props.location.state);
+
 		if (!isLoading) {
 			singleViewCarHtml = singleViewCar.map((singlecarhtml, index) => 
 				<div key={index}>
 					{ typeof this.props.location.state == "undefined" ? (
 						<Helmet>
 							<title>{ singlecarhtml.title.rendered + " for Sale in Dubai, AED "+ (singlecarhtml.post_meta_fields.sale_price && singlecarhtml.post_meta_fields.sale_price[0] !== "" ? singlecarhtml.post_meta_fields.sale_price[0] : singlecarhtml.post_meta_fields.car_price[0]) +" , " + singlecarhtml.post_meta_fields['exterior-color'] }</title>
+							<meta name="description" content={singlecarhtml.title.rendered + " for Sale in Dubai, UAE at The Elite Cars. For more details, visit our website and showrooms in Dubai."}/>
+							<link rel="canonical" href={singlecarhtml.link} />
+
+							<meta name="og:title" property="og:title" content={ singlecarhtml.title.rendered + " for Sale in Dubai, AED "+ (singlecarhtml.post_meta_fields.sale_price && singlecarhtml.post_meta_fields.sale_price[0] !== "" ? singlecarhtml.post_meta_fields.sale_price[0] : singlecarhtml.post_meta_fields.car_price[0]) +" , " + singlecarhtml.post_meta_fields['exterior-color'] } />
+							<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+							<meta name="og:description" property="og:description" content={singlecarhtml.title.rendered + " for Sale in Dubai, UAE at The Elite Cars. For more details, visit our website and showrooms in Dubai."} />
+							<meta name="og:type" property="og:type" content="website" />
+							<meta name="og:image" property="og:image" content={this.state.singleViewCarImages[0]} />
+							<meta name="og:url" property="og:url" content={singlecarhtml.link} />
 						</Helmet>
 					) : ("")}
 					<SingleViewSlider slideImages={this.state.singleViewCarImages} carSold={this.state.carSold} badgeText={this.state.badgeText} salePrice={this.state.salePrice} />
@@ -974,6 +985,15 @@ class SingleView extends Component {
 				{ typeof this.props.location.state != "undefined" ? (
 					<Helmet>
 						<title>{ this.props.location.state.carname + " for Sale in Dubai, AED "+ this.props.location.state.carprice +" , " + this.props.location.state.exteriorColor }</title>
+						<meta name="description" content={this.props.location.state.carname + " for Sale in Dubai, UAE at The Elite Cars. For more details, visit our website and showrooms in Dubai."} />
+						<link rel="canonical" href={"https://theelitecars.com/listings/" + this.props.match.params.slugid} />
+
+						<meta name="og:title" property="og:title" content={ this.props.location.state.carname + " for Sale in Dubai, AED "+ this.props.location.state.carprice +" , " + this.props.location.state.exteriorColor } />
+						<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+						<meta name="og:description" property="og:description" content={this.props.location.state.carname + " for Sale in Dubai, UAE at The Elite Cars. For more details, visit our website and showrooms in Dubai."} />
+						<meta name="og:type" property="og:type" content="website" />
+						<meta name="og:image" property="og:image" content={this.props.location.state.carimage} />
+						<meta name="og:url" property="og:url" content={"https://theelitecars.com/listings/" + this.props.match.params.slugid} />
 					</Helmet>
 				) : ("")}
 				

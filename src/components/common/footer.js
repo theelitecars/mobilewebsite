@@ -438,7 +438,7 @@ class Footer extends Component {
 							<label>Get the latest news and deals</label>
 							<div>
 								<input type="email" name="subscribe_email" placeholder="Enter Email Address" value={fields.subscribe_email || ''} onChange={this.handleChange} className={errors.subscribe_email ? "error":""} disabled={isSending ? true : false}/>
-								<button type="submit" className="tec_button" disabled={isSending ? true : false}>Subscribe</button>
+								<button type="submit" className="tec_button" disabled={isSending ? true : false}>{isSending ? 'Subscribing...' : 'Subscribe'}</button>
 							</div>
 							<span className="error">{errors.subscribe_email}</span>
 							<span className={alertMessageClass}>{alertMessage.message}</span>
@@ -446,17 +446,17 @@ class Footer extends Component {
 					</form>
 					<hr/>
 					<ul className="social_media">
-						<li><a href="" className="facebook"><img src="https://img.icons8.com/material/25/ffffff/facebook-f.png" className="img-fluid" /></a></li>
-						<li><a href="" className="instagram"><img src="https://img.icons8.com/material-outlined/25/ffffff/instagram-new.png" className="img-fluid" /></a></li>
-						<li><a href="" className="twitter"><img src="https://img.icons8.com/material/25/ffffff/twitter-squared.png" className="img-fluid" /></a></li>
-						<li><a href="" className="youtube"><img src="https://img.icons8.com/material/25/ffffff/youtube-play.png" className="img-fluid" /></a></li>
-						<li><a href="" className="linkedin"><img src="https://img.icons8.com/ios-glyphs/25/ffffff/linkedin-2.png" className="img-fluid" /></a></li>
+						<li><a href="https://www.facebook.com/theelitecars/" target="_blank" className="facebook"><img src="https://img.icons8.com/material/25/ffffff/facebook-f.png" className="img-fluid" /></a></li>
+						<li><a href="https://www.instagram.com/theelitecars/" target="_blank" className="instagram"><img src="https://img.icons8.com/material-outlined/25/ffffff/instagram-new.png" className="img-fluid" /></a></li>
+						{/*<li><a href="" target="_blank" className="twitter"><img src="https://img.icons8.com/material/25/ffffff/twitter-squared.png" className="img-fluid" /></a></li>*/}
+						<li><a href="https://www.youtube.com/channel/UCXqJk5ZZSwY7SzsDSQk2bUA/videos" target="_blank" className="youtube"><img src="https://img.icons8.com/material/25/ffffff/youtube-play.png" className="img-fluid" /></a></li>
+						<li><a href="https://www.linkedin.com/company/the-elite-cars" target="_blank" className="linkedin"><img src="https://img.icons8.com/ios-glyphs/25/ffffff/linkedin-2.png" className="img-fluid" /></a></li>
 					</ul>
 					<div className="bottom_footer">
 						<ul>
-							<li><a href="">Terms of Use</a></li>
+							<li><Link to="/terms-of-use">Terms of Use</Link></li>
 							<li><span className="separator">|</span></li>
-							<li><a href="">Privacy Policy</a></li>
+							<li><Link to="/privacy-policy">Privacy Policy</Link></li>
 						</ul>
 						<div>&copy; 2019 | All Rights Reserved | <Link to="/">The Elite Cars LLC</Link></div>
 					</div>

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Link, NavLink } from "react-router-dom";
 import axios from 'axios';
+import { Helmet } from 'react-helmet';
 
 import pageLoading from '../images/pageload.gif';
+import slideHeaderImage from '../images/menu_header.jpg';
 
 class VideoGallery extends Component {
 
@@ -116,6 +118,20 @@ class VideoGallery extends Component {
 
 		return (
 			<div className="video_gallery_page">
+				<Helmet>
+
+					<title>The Elite cars | Video Gallery</title>
+					<meta name="description" content="The leading car dealership in Dubai for new and preowned luxurious British, European and American cars such as Land Rover, BMW, Mercedes, Jaguar and Porsche"/>
+					<link rel="canonical" href="https://theelitecars.com/video-gallery/" />
+
+					<meta name="og:title" property="og:title" content="The Elite cars | Video Gallery" />
+					<meta name="og:site_name" property="og:site_name" content="The Elite Cars | The True Definition of Luxury" />
+					<meta name="og:description" property="og:description" content="The leading car dealership in Dubai for new and preowned luxurious British, European and American cars such as Land Rover, BMW, Mercedes, Jaguar and Porsche" />
+					<meta name="og:type" property="og:type" content="website" />
+					<meta name="og:image" property="og:image" content={slideHeaderImage} />
+					<meta name="og:url" property="og:url" content="https://theelitecars.com/video-gallery/" />
+
+				</Helmet>
 				<h1>Video Gallery</h1>
 				<div className="container">
 					<div className="row video_gallery_lists">
